@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="coolzhuagent 特性总览：核心运行时、工具系统、插件生态、Computer Use、Goal 流水线、多 Provider、安全模型。">
+<title>特性 · coolzhuagent</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050b0a'/%3E%3Cpath d='M18 18h28v8H27v12h19v8H18z' fill='%2377e6ad'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/theme.css">
+<link rel="stylesheet" href="/assets/chat-widget.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">COOLZHU<span>AGENT</span></a>
+  <nav class="topnav">
+    <a href="/features.html">特性</a>
+    <a href="/docs/quickstart.html">文档</a>
+    <a href="/download.html">下载</a>
+    <a href="/compare.html">对标</a>
+    <a href="/changelog.html">更新</a>
+  </nav>
+</header>
+
+<section class="section">
+  <div class="section-heading">
+    <p class="eyebrow">FEATURES</p>
+    <h2>特性总览</h2>
+    <p class="section-intro">按运行时 → 工具 → 编排 → 交互 → 安全五层展开。每一项均对应仓库中的真实模块。</p>
+  </div>
+
+  <div class="grid">
+    <div class="card"><span class="tag">core-runtime</span><h3>会话运行时</h3>
+      <p>ConversationRuntime 驱动「模型回合 → 工具调用 → 结果回注」循环；流式输出、token 统计
+        （首 token 时间、缓存去重、解码速率如实展示）、上下文压缩。</p></div>
+    <div class="card"><span class="tag">tool-registry</span><h3>内置工具</h3>
+      <p>bash、powershell、read/write/edit、glob、grep、web fetch/search、todo、skill、repl、
+        结构化输出、子代理等 19+ 工具；统一权限裁决与执行协议。</p></div>
+    <div class="card"><span class="tag">plugin-system</span><h3>插件系统</h3>
+      <p>manifest 声明元数据/权限/工具清单；安装走原子事务并做来源与兼容校验；内置 TDD、
+        Git 工作流、代码评审、编排器、文档生成、数据库、诊断、监控、市场 9 个插件。</p></div>
+    <div class="card"><span class="tag">Goal</span><h3>多阶段任务</h3>
+      <p>commander / planner / implementer / verifier 流水线；确定性验证门（FilesExist/Command）
+        不过自动回退；重试带上限，预算不被重置。</p></div>
+    <div class="card"><span class="tag">computer-use</span><h3>桌面操控</h3>
+      <p>鼠标键盘、安全点击、分辨率映射、UIA 元素定位、视觉模型坐标解析、截图；
+        定时/后台/轨迹任务集中在任务页统一管理。</p></div>
+    <div class="card"><span class="tag">web-console</span><h3>主控制台</h3>
+      <p>九大主窗口：聊天室、任务、文件、终端、媒体、模型、设置等；单文件前端
+        内联进 Rust 服务，默认 http://127.0.0.1:8765/。</p></div>
+    <div class="card"><span class="tag">gui-desktop</span><h3>桌面壳与桌宠</h3>
+      <p>Tauri shell、桌宠、启动器；Q 版头像库（DeepSeek 鲸鱼娘系列）+ 自定义上传；
+        多开同端口实例经身份验证后平滑切换。</p></div>
+    <div class="card"><span class="tag">voice &amp; media</span><h3>语音与媒体</h3>
+        <p>实时语音会话（STT ↔ 模型 ↔ TTS 闭环）；Agnes Image / Video、OpenRouter 渠道，
+        媒体用量与对话 token 分开统计。</p></div>
+    <div class="card"><span class="tag">bridge</span><h3>桥接能力</h3>
+      <p>浏览器桥接与微信私聊连接；聊天室可以驱动跨进程 Agent 对端（chat_handoff）。</p></div>
+    <div class="card"><span class="tag">workspace</span><h3>工程与保护</h3>
+      <p>多工程工作区；默认工程受保护（禁止移除/删除/重命名）；回收站删除；
+        路径显示去 <code>\\?\</code> 前缀但保留原始路径做权限判断。</p></div>
+    <div class="card"><span class="tag">diagnostics</span><h3>诊断与回归</h3>
+      <p>发布前跑全量分组回归（0.2.142 记录：后端 1,539 项、前端 50 项、启动器 79 项）；
+        候选制品做隐私扫描与二进制哈希核对。</p></div>
+    <div class="card"><span class="tag">security</span><h3>权限与隐私</h3>
+      <p>权限按聊天室归属；外部目录逐次审批、完全访问二次确认且重启失效；
+        可选 Windows 低完整性沙箱；12 小时窗口自动清理运行记录。</p></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <span>© 2026 coolzhuagent · MIT License</span>
+  <a href="/privacy.html">隐私</a><a href="/contact.html">联系</a>
+</footer>
+<script src="/assets/theme.js"></script>
+<script src="/assets/chat-widget.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="coolzhuagent 隐私说明：站点不收集个人信息；FAQ 客服的限流与数据处理边界。">
+<title>隐私说明 · coolzhuagent</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050b0a'/%3E%3Cpath d='M18 18h28v8H27v12h19v8H18z' fill='%2377e6ad'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/theme.css">
+<link rel="stylesheet" href="/assets/chat-widget.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">COOLZHU<span>AGENT</span></a>
+  <nav class="topnav">
+    <a href="/features.html">特性</a>
+    <a href="/docs/quickstart.html">文档</a>
+    <a href="/download.html">下载</a>
+    <a href="/compare.html">对标</a>
+    <a href="/changelog.html">更新</a>
+  </nav>
+</header>
+
+<section class="section">
+  <div class="section-heading">
+    <p class="eyebrow">PRIVACY</p>
+    <h2>隐私说明</h2>
+    <p class="section-intro">生效日期：2026-10-28。本页说明本站与应用的数据边界。</p>
+  </div>
+
+  <h3>本站</h3>
+  <ul>
+    <li><b>不收集个人信息</b>：无注册、无登录、无跟踪脚本、无第三方分析。</li>
+    <li><b>FAQ 客服</b>：你输入的问题用于检索与回答，默认不持久化问题原文；
+      为防止滥用，同 IP 每日限额 5 次，IP 以加盐 SHA-256 哈希计数（不存原始 IP）。</li>
+    <li><b>AI 内容标识</b>：客服回答由「FAQ 检索 + AI 辅助」生成，仅供参考，不构成承诺。</li>
+    <li><b>日志</b>：边缘函数仅记录请求量、命中来源、耗时等运行指标，不含问题原文与原始 IP。</li>
+  </ul>
+
+  <h3>coolzhuagent 应用</h3>
+  <ul>
+    <li><b>本地优先</b>：会话、聊天室、工程数据保存在你本机的工程目录（<code>.coolzhu/</code>）。</li>
+    <li><b>出网边界</b>：只有你主动发起的模型 API / 订阅调用会出网；本地工具与文件操作离线可用。</li>
+    <li><b>凭据</b>：模型密钥、登录凭据、会话数据库不进源码仓库、不上传本站。</li>
+    <li><b>运行记录</b>：按约 12 小时窗口自动清理，保护活动任务与聊天引用。</li>
+  </ul>
+
+  <h3>你的选择</h3>
+  <ul>
+    <li>不使用客服：悬浮按钮不点即可，站点其余功能不受影响。</li>
+    <li>删除本地数据：卸载应用并删除工程目录即完成。</li>
+    <li>疑问或删除请求：见<a href="/contact.html">联系页</a>。</li>
+  </ul>
+</section>
+
+<footer class="site-footer">
+  <span>© 2026 coolzhuagent · MIT License</span>
+  <a href="/privacy.html">隐私</a><a href="/contact.html">联系</a>
+</footer>
+<script src="/assets/theme.js"></script>
+<script src="/assets/chat-widget.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="coolzhuagent 与 Claude Code harness 架构对比：哪些组件可直接替换、哪些借鉴、哪些我们已更强。">
+<title>与 Claude Code 对比 · coolzhuagent</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050b0a'/%3E%3Cpath d='M18 18h28v8H27v12h19v8H18z' fill='%2377e6ad'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/theme.css">
+<link rel="stylesheet" href="/assets/chat-widget.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">COOLZHU<span>AGENT</span></a>
+  <nav class="topnav">
+    <a href="/features.html">特性</a>
+    <a href="/docs/quickstart.html">文档</a>
+    <a href="/download.html">下载</a>
+    <a href="/compare.html">对标</a>
+    <a href="/changelog.html">更新</a>
+  </nav>
+</header>
+
+<section class="section">
+  <div class="section-heading">
+    <p class="eyebrow">ARCHITECTURE · 2026-10</p>
+    <h2>coolzhuagent ↔ Claude Code harness 对比</h2>
+    <p class="section-intro">对 Claude Desktop/CLI 的已安装产物做了纯静态逆向分析（不联网、不调用模型、
+      不绕过完整性保护），并把还原出的 harness 组件逐项与本仓库代码比对。结论：
+      骨架高度同构——多数"替换"是字段级补齐，而不是重写。以下为公开摘要。</p>
+  </div>
+
+  <h3>总体判定</h3>
+  <table>
+    <tr><th>分档</th><th>含义</th><th>规模</th></tr>
+    <tr><td class="status-ok">直接替换</td><td>设计可直接落到现有结构，改动边界清晰</td><td>~10 项</td></tr>
+    <tr><td>借鉴改造</td><td>模式好但需适配 Rust/现有抽象</td><td>~8 项</td></tr>
+    <tr><td class="status-ok">coolzhu 更强</td><td>现有实现已优于对侧，保留</td><td>7 项</td></tr>
+    <tr><td class="status-warn">不建议</td><td>与现有架构冲突或收益低</td><td>4 项</td></tr>
+  </table>
+
+  <h3>直接替换（高收益小改动）</h3>
+  <table>
+    <tr><th>Claude 侧机制</th><th>coolzhuagent 落点</th></tr>
+    <tr><td>停因闭集 12 项（completed / max_turns / tool_deferred / …）</td><td><code>TurnSummary</code> 加 <code>TurnEndReason</code> 枚举</td></tr>
+    <tr><td>malformed tool_use 重试一次 + max_output_tokens 自动续写 ×3</td><td><code>run_turn</code> 按 stop_reason 分支</td></tr>
+    <tr><td>批准可携带 <code>updatedInput</code> / <code>updatedPermissions</code></td><td><code>PermissionPromptDecision</code> 加两个可选字段</td></tr>
+    <tr><td>deferred tool_use 找回重走闸门（批准后有执行路径）</td><td><code>Session</code> 按 call_id 找回，补 <code>DryRunOnly</code> 缺口</td></tr>
+    <tr><td>子进程环境变量 deny-list（~90 项 + 9 前缀）</td><td><code>bash.rs prepare_command</code> 前置过滤</td></tr>
+    <tr><td>读文件状态表（编辑前 mtime 陈旧检测）</td><td><code>edit_file / write_file</code> 小函数</td></tr>
+    <tr><td>TaskOutput / TaskStop 后台任务族</td><td>直挂已有 <code>background_task_id</code></td></tr>
+    <tr><td>PostToolBatch / Stop hook 事件 + 8 次阻断熔断</td><td><code>hooks.rs</code> 扩枚举</td></tr>
+    <tr><td>下载链 sha256 → temp → zstd → .verified</td><td><code>install_transaction</code> 补 checksum + 原子落位</td></tr>
+  </table>
+
+  <h3>coolzhuagent 已更强的部分</h3>
+  <ul>
+    <li><b>hook 独立执行授权</b>：未授权不运行且留痕——Claude 的 settings.json 命令即跑，无此层。</li>
+    <li><b>hook 跑过 → 原审批作废重判</b>：hook 可改世界，PreToolUse 之后必须重评。</li>
+    <li><b>闸门报告写回</b>：<code>outcome.permission_gate = gate</code>，防 executor 伪造审批结果。</li>
+    <li><b>Unspecified fail-closed</b>：未知权限元数据一律按配置错误处理，不默放。</li>
+    <li><b>memory beads</b>：嵌入相似度 / supersede / TTL / recall 评分，胜过平文件记忆。</li>
+    <li><b>install_transaction</b>：插件原子安装事务。</li>
+    <li><b>WindowsLowIntegrity</b>：低完整性写边界，比路径检查硬。</li>
+  </ul>
+
+  <h3>不建议移植</h3>
+  <ul>
+    <li>Electron IPC 服务注册表 <code>co()</code>——本产品是 HTTP 边界（web-console + agent-server Router）。</li>
+    <li>CLI 子进程 per-session——同进程 <code>ConversationRuntime</code> 已等价且更轻。</li>
+    <li>RTB 设备桥——与本仓 <code>remote.rs</code> UpstreamProxy 方向相反。</li>
+    <li>Hyper-V microVM——低完整性路线更贴 Windows 单机架构。</li>
+  </ul>
+
+  <h3>方法论</h3>
+  <p>分析全程离线只读：复制安装产物 → 解包 app.asar → 静态分析（约 1,599 个 IPC 操作、
+    54 个 contextBridge API、70 条 sender 校验、42 个内置工具定义、系统 prompt 装配与
+    12 项停因闭集）。遇加密/完整性校验/凭据边界即停止记录，不做绕过。原始报告与
+    完整比对表在分析仓（非公开分发）。</p>
+</section>
+
+<footer class="site-footer">
+  <span>© 2026 coolzhuagent · MIT License</span>
+  <a href="/privacy.html">隐私</a><a href="/contact.html">联系</a>
+</footer>
+<script src="/assets/theme.js"></script>
+<script src="/assets/chat-widget.js"></script>
+</body>
+</html>

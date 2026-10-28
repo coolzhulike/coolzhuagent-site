@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://coolzhuagent.edgeone.app/sitemap.xml

@@ -1,0 +1,13 @@
+{
+  "name": "coolzhuagent-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "coolzhuagent 主题官网：静态页 + EdgeOne Functions FAQ 客服",
+  "scripts": {
+    "build": "npm run build:docs && npm run build:faq && npm run check:releases",
+    "build:docs": "node scripts/build-docs.mjs",
+    "build:faq": "node scripts/build-faq.mjs",
+    "check:releases": "node scripts/check-releases.mjs --skip-network"
+  }
+}

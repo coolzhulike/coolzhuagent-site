@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="coolzhuagent —— 面向 Windows 的本地优先 Rust AI Agent：会话运行时、真实工具链、插件生态、Computer Use。">
+<title>coolzhuagent · 本地优先的 AI Agent 工作台</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050b0a'/%3E%3Cpath d='M18 18h28v8H27v12h19v8H18z' fill='%2377e6ad'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/theme.css">
+<link rel="stylesheet" href="/assets/chat-widget.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">COOLZHU<span>AGENT</span></a>
+  <nav class="topnav">
+    <a href="/features.html">特性</a>
+    <a href="/docs/quickstart.html">文档</a>
+    <a href="/download.html">下载</a>
+    <a href="/compare.html">对标</a>
+    <a href="/changelog.html">更新</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">COOLZHU AGENT · WINDOWS · MIT</p>
+    <h1>从模型会话，到真实桌面执行</h1>
+    <p class="lead">Rust 内核的本地 AI Agent 工作区：聊天室、Goal 多阶段流水线、19+ 内置工具、
+      插件市场、Computer Use、实时语音。权限逐次审批，数据留在本机。</p>
+    <div class="hero-actions">
+      <a class="button primary" href="/download.html">下载 Windows 版</a>
+      <a class="button" href="/docs/quickstart.html">快速开始</a>
+    </div>
+    <div class="hero-facts">
+      <span><b>19+</b>内置工具</span>
+      <span><b>9</b>官方插件</span>
+      <span><b>4 角色</b>Goal 流水线</span>
+      <span><b>1,539</b>后端回归测试</span>
+    </div>
+  </div>
+  <div class="loop-demo" aria-label="交互闭环示意">
+    <div class="loop-core"><span>COOLZHU</span><strong>AGENT</strong></div>
+    <div class="orbit orbit-a"><i>会话</i><i>模型</i><i>语音</i><i>视觉</i></div>
+    <div class="orbit orbit-b"><i>工具</i><i>权限</i><i>审批</i><i>反馈</i></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <p class="eyebrow">CORE CAPABILITIES</p>
+    <h2>一个 Agent 工作台，而不是一个聊天框</h2>
+    <p class="section-intro">所有能力围绕「本地运行时 + 权限闸门 + 可验证产出」组织。</p>
+  </div>
+  <div class="grid">
+    <div class="card"><span class="tag">核心</span><h3>核心运行时</h3>
+      <p>会话、权限、hooks、记忆 beads、上下文压缩，纯 Rust 实现，无外部服务依赖。</p></div>
+    <div class="card"><span class="tag">工具</span><h3>统一工具协议</h3>
+      <p>19+ 内置工具走同一个 ToolInvoke / ToolOutcome 协议，权限闸门先审后放，结果可审计。</p></div>
+    <div class="card"><span class="tag">生态</span><h3>插件与技能</h3>
+      <p>9 个官方插件开箱即用（TDD、Git 工作流、代码评审、编排器…）；安装原子事务，失败可回滚。</p></div>
+    <div class="card"><span class="tag">操控</span><h3>Computer Use</h3>
+      <p>UIA + 视觉双通道定位，安全点击、回收站删除、外部写入逐次审批——看得懂也点得准。</p></div>
+    <div class="card"><span class="tag">任务</span><h3>Goal 流水线</h3>
+      <p>commander → planner → implementer → verifier 四角色编排，验证不通过自动回退重改。</p></div>
+    <div class="card"><span class="tag">模型</span><h3>多 Provider</h3>
+      <p>API 与订阅分栏：OpenAI 兼容、Devin、OpenAI / ChatGPT 订阅，图像与视频独立配置。</p></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <p class="eyebrow">WHY LOCAL-FIRST</p>
+    <h2>数据在本机，权限在你手里</h2>
+    <p class="section-intro">会话存在本地工程目录；只有你发起的模型调用会出网。
+      高危工具强制走审批卡；默认工程受保护，删除必须进回收站。</p>
+  </div>
+  <div class="hero-actions">
+    <a class="button" href="/features.html">全部特性 →</a>
+    <a class="button" href="/compare.html">与 Claude Code 对比 →</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <span>© 2026 coolzhuagent · MIT License</span>
+  <a href="/privacy.html">隐私</a>
+  <a href="/contact.html">联系</a>
+  <span class="notice">FAQ 客服为 AI 辅助回答，仅供参考</span>
+</footer>
+
+<script src="/assets/theme.js"></script>
+<script src="/assets/chat-widget.js"></script>
+</body>
+</html>

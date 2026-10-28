@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "updatedAt": "2026-10-28",
+  "site": {
+    "name": "coolzhuagent",
+    "contact": "coolzhu@example.com",
+    "contactText": "如需人工帮助，请见联系页 /contact.html"
+  },
+  "items": [
+    {
+      "id": "faq-001",
+      "category": "产品",
+      "question": "coolzhuagent 是什么？",
+      "aliases": ["这是什么软件", "是干什么的", "介绍下这个产品", "是聊天软件吗"],
+      "answer": "coolzhuagent 是一个面向 Windows 桌面、本地优先的 Rust AI Agent 工作区：模型会话、多房间聊天、Goal 多阶段任务、实时语音、Computer Use（真实键鼠操作）、浏览器桥接、插件与技能生态。它不是套壳聊天——Agent 在你本机执行工具链，权限逐次审批。",
+      "keywords": ["coolzhuagent", "是什么", "AI", "Agent", "Rust", "本地"],
+      "related": ["faq-002", "faq-010"],
+      "enabled": true
+    },
+    {
+      "id": "faq-002",
+      "category": "安装",
+      "question": "怎么下载和安装？",
+      "aliases": ["在哪里下载", "下载地址", "怎么安装", "安装包在哪"],
+      "answer": "见本站「下载」页（/download.html）。当前最新版本为 0.2.142，提供 Windows MSI 安装包；页面同时给出每个文件的 SHA-256 哈希和校验教程，下载后可用 certutil 核对。",
+      "keywords": ["下载", "安装", "MSI", "安装包", "SHA-256"],
+      "related": ["faq-003"],
+      "enabled": true
+    },
+    {
+      "id": "faq-003",
+      "category": "安装",
+      "question": "需要什么系统环境？",
+      "aliases": ["系统要求", "支持什么系统", "Win10能用吗", "mac能用吗", "需要联网吗"],
+      "answer": "面向 Windows 10/11 桌面（x64）。普通使用不需要开发环境；从源码构建则需要 Rust stable 和 PowerShell 5.1+。模型对话需要联网调用你配置的模型 API；本地工具与文件操作在离线时也可用。",
+      "keywords": ["系统", "要求", "Windows", "环境", "联网"],
+      "related": ["faq-002", "faq-011"],
+      "enabled": true
+    },
+    {
+      "id": "faq-004",
+      "category": "模型",
+      "question": "支持哪些模型和订阅？",
+      "aliases": ["支持什么模型", "能用GPT吗", "能用Claude吗", "模型列表", "订阅有哪些"],
+      "answer": "模型设置分「API」与「订阅」两栏：API 走 OpenAI 兼容接口与自有 provider；首批订阅接入 Devin、OpenAI / ChatGPT。图像与视频有独立配置（Agnes Image / Video、OpenRouter 渠道）。具体模型 ID 由目录精确返回，以应用内模型选择为准。",
+      "keywords": ["模型", "订阅", "OpenAI", "Devin", "API", "图像", "视频"],
+      "related": ["faq-005"],
+      "enabled": true
+    },
+    {
+      "id": "faq-005",
+      "category": "费用",
+      "question": "coolzhuagent 收费吗？",
+      "aliases": ["要钱吗", "免费吗", "价格", "怎么收费"],
+      "answer": "项目以 MIT License 开源，应用本身免费。模型对话、图像、视频生成消耗的是你自有模型 API 或订阅的额度，费用由对应服务商收取，与本应用无关。",
+      "keywords": ["收费", "免费", "开源", "MIT", "价格"],
+      "related": ["faq-004"],
+      "enabled": true
+    },
+    {
+      "id": "faq-006",
+      "category": "功能",
+      "question": "有哪些内置工具？",
+      "aliases": ["有什么工具", "工具列表", "能操作文件吗", "能联网搜索吗"],
+      "answer": "内置 19+ 个工具：bash/powershell 执行、文件读写编辑、glob/grep 搜索、web 抓取与搜索、待办、技能调用、REPL、结构化输出、子代理等，全部走统一的权限闸门（先审后放）。完整清单见特性页与文档。",
+      "keywords": ["工具", "内置", "bash", "文件", "搜索", "权限"],
+      "related": ["faq-007", "faq-009"],
+      "enabled": true
+    },
+    {
+      "id": "faq-007",
+      "category": "插件",
+      "question": "插件怎么开发和安装？",
+      "aliases": ["插件开发", "怎么写插件", "插件市场", "技能怎么装"],
+      "answer": "插件由 plugin-system 管理：manifest 声明元数据/权限/工具清单，安装走原子事务（来源与兼容校验、失败可回滚）。内置 9 个官方插件（TDD、Git 工作流、代码评审、编排器、文档生成、数据库、诊断、监控、市场）。技能（Skill）支持创建、安装和按会话启用。详见文档「插件开发」。",
+      "keywords": ["插件", "开发", "安装", "manifest", "技能", "市场"],
+      "related": ["faq-006"],
+      "enabled": true
+    },
+    {
+      "id": "faq-008",
+      "category": "功能",
+      "question": "Goal 模式是什么？",
+      "aliases": ["多阶段任务", "任务链", "Goal是什么", "自动执行长任务"],
+      "answer": "Goal 模式把大任务拆成 commander（指挥官）→ planner（规划）→ implementer（执行）→ verifier（验证）四个阶段的流水线：验证不通过自动回退重改（带原因与重试上限），失败可回 planner 重新规划。适合需要可验收产物的长任务。",
+      "keywords": ["Goal", "多阶段", "流水线", "验证", "回退", "任务"],
+      "related": ["faq-006"],
+      "enabled": true
+    },
+    {
+      "id": "faq-009",
+      "category": "安全",
+      "question": "电脑操作（Computer Use）安全吗？",
+      "aliases": ["会乱点我电脑吗", "自动控制安全吗", "鼠标键盘权限", "会不会误删文件"],
+      "answer": "有多层防护：UIA/视觉双通道定位元素后再操作；点击走安全点击路径；文件删除走回收站且默认工程受保护禁止删除/重命名；外部目录写入逐次审批、完全访问需二次确认且重启失效；可选 Windows 低完整性沙箱。所有高危工具都过权限闸门。",
+      "keywords": ["安全", "Computer Use", "点击", "删除", "权限", "沙箱"],
+      "related": ["faq-011", "faq-006"],
+      "enabled": true
+    },
+    {
+      "id": "faq-010",
+      "category": "对比",
+      "question": "和 Claude Code 有什么区别？",
+      "aliases": ["对比Claude Code", "和Claude什么区别", "哪个好", "是不是模仿Claude"],
+      "answer": "两者都是 Agent harness，但形态不同：Claude Code 是 CLI + Electron 桌面端，coolzhuagent 是 Rust 本地运行时 + Web 控制台 + 桌面壳，原生带插件市场、电脑操控、实时语音和多阶段 Goal 流水线。详细架构对比见本站「对标」页（/compare.html）。",
+      "keywords": ["Claude Code", "对比", "区别", "harness"],
+      "related": ["faq-001"],
+      "enabled": true
+    },
+    {
+      "id": "faq-011",
+      "category": "隐私",
+      "question": "我的数据会上传吗？",
+      "aliases": ["隐私怎么样", "会话存哪里", "数据上传吗", "聊天记录在哪"],
+      "answer": "会话与聊天数据保存在你本机的工程目录（.coolzhu/ 下），只有你主动发起的模型 API 调用会出网。站点本身不收集个人信息；客服问答默认不持久化问题内容。详见隐私页（/privacy.html）。",
+      "keywords": ["隐私", "数据", "上传", "本地", "会话"],
+      "related": ["faq-009", "faq-005"],
+      "enabled": true
+    },
+    {
+      "id": "faq-012",
+      "category": "反馈",
+      "question": "遇到问题怎么反馈？",
+      "aliases": ["怎么报bug", "联系方式", "有问题找谁", "反馈渠道"],
+      "answer": "见联系页（/contact.html）：可通过仓库 issue 或联系邮箱反馈。反馈时请附上版本号（下载页可查）和复现步骤；本应用有完善的诊断模块，必要时可在「诊断」窗口导出信息。",
+      "keywords": ["反馈", "联系", "bug", "issue", "邮箱"],
+      "related": [],
+      "enabled": true
+    },
+    {
+      "id": "faq-013",
+      "category": "使用",
+      "question": "Web 控制台怎么启动？",
+      "aliases": ["控制台在哪", "怎么打开界面", "8765端口", "web界面"],
+      "answer": "源码方式：`cargo run -p coolzhu-web-console`（加 `-- --open` 自动开浏览器），默认 http://127.0.0.1:8765/。安装版从启动器或桌面壳直接打开主控制台，九个主窗口覆盖聊天、任务、文件、终端等。",
+      "keywords": ["控制台", "启动", "8765", "web", "界面"],
+      "related": ["faq-002"],
+      "enabled": true
+    },
+    {
+      "id": "faq-014",
+      "category": "使用",
+      "question": "支持中文界面吗？",
+      "aliases": ["有中文吗", "界面语言", "中文支持"],
+      "answer": "中文优先：界面、文档、FAQ 客服均为简体中文；模型会话可用中文交互，回复语言跟随你的提问与输出风格设置。",
+      "keywords": ["中文", "语言", "界面", "简体"],
+      "related": [],
+      "enabled": true
+    },
+    {
+      "id": "faq-015",
+      "category": "使用",
+      "question": "没有网能用吗？",
+      "aliases": ["离线能用吗", "断网可以用吗", "需要联网吗"],
+      "answer": "部分可以：本地工具（文件、搜索、终端）、聊天室管理、任务页等在离线时可用；模型对话、图像/视频生成、联网搜索需要网络。源码构建支持 `--offline` 离线编译（依赖已缓存时）。",
+      "keywords": ["离线", "断网", "联网", "本地"],
+      "related": ["faq-003", "faq-011"],
+      "enabled": true
+    }
+  ]
+}
