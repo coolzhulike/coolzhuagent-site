@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" role="img" aria-label="coolzhu agent logo">
+  <defs>
+    <linearGradient id="cz-mark" x1="18" y1="14" x2="106" y2="108" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C6FFE0"/>
+      <stop offset=".46" stop-color="#7BF0B4"/>
+      <stop offset="1" stop-color="#5FD7EF"/>
+    </linearGradient>
+    <radialGradient id="cz-halo" cx="0" cy="0" r="1" gradientTransform="translate(60 60) rotate(90) scale(58)">
+      <stop stop-color="#7BF0B4" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#7BF0B4" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="cz-soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <circle cx="60" cy="60" r="58" fill="url(#cz-halo)"/>
+  <g filter="url(#cz-soft)">
+    <path d="M96 23H43C29.745 23 19 33.745 19 47v26c0 13.255 10.745 24 24 24h53"
+          stroke="url(#cz-mark)" stroke-width="11" stroke-linecap="round"/>
+    <path d="M83 41H55l28 38H55"
+          stroke="url(#cz-mark)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="96" cy="23" r="5.5" fill="#E7CC86"/>
+    <circle cx="96" cy="97" r="5.5" fill="#5FD7EF"/>
+  </g>
+</svg>

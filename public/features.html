@@ -4,75 +4,235 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<meta name="description" content="coolzhuagent 特性总览：核心运行时、工具系统、插件生态、Computer Use、Goal 流水线、多 Provider、安全模型。">
-<title>特性 · coolzhuagent</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050b0a'/%3E%3Cpath d='M18 18h28v8H27v12h19v8H18z' fill='%2377e6ad'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#040807">
+<meta name="description" content="coolzhuagent 七层能力总览：多 Agent 协同编排、Computer Use、Browser Use、插件工具、权限安全审计、Goal 流水线、全模态 Provider。">
+<title>能力总览 · coolzhuagent</title>
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/theme.css">
-<link rel="stylesheet" href="/assets/chat-widget.css">
 </head>
 <body>
-<header class="topbar">
-  <a class="brand" href="/">COOLZHU<span>AGENT</span></a>
-  <nav class="topnav">
-    <a href="/features.html">特性</a>
-    <a href="/docs/quickstart.html">文档</a>
-    <a href="/download.html">下载</a>
-    <a href="/compare.html">对标</a>
-    <a href="/changelog.html">更新</a>
-  </nav>
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="coolzhuagent 首页">
+      <img class="brand-mark" src="/assets/logo.svg" alt="" width="38" height="38">
+      <span class="brand-type"><b>COOLZHU</b><span>AGENT RUNTIME</span></span>
+    </a>
+    <nav class="nav" id="site-nav" aria-label="主导航">
+      <a href="/#capabilities">能力</a>
+      <a href="/#film">宣传片</a>
+      <a href="/#agent">Agent 对话</a>
+      <a href="/docs/quickstart.html">文档</a>
+      <a href="/download.html">下载</a>
+      <a href="/compare.html">对标</a>
+      <a class="nav-cta" href="/download.html">下载 Windows 版</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="打开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span>
+    </button>
+  </div>
 </header>
 
-<section class="section">
-  <div class="section-heading">
-    <p class="eyebrow">FEATURES</p>
-    <h2>特性总览</h2>
-    <p class="section-intro">按运行时 → 工具 → 编排 → 交互 → 安全五层展开。每一项均对应仓库中的真实模块。</p>
-  </div>
+<main id="main">
+  <section class="page-hero">
+    <p class="kicker">CAPABILITY MAP · SEVEN LAYERS</p>
+    <h1>七层能力，<span class="grad">一条执行链</span></h1>
+    <p>coolzhuagent 不是七个孤立功能的拼盘。多 Agent 负责拆解与编排，Computer Use / Browser Use 负责真实执行，插件扩展工具边界，权限闸门负责每一次放行，Goal 流水线负责把结果验收到底，Provider 总线接住所有模态。</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="/#agent">直接问 Agent
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="btn" href="/docs/architecture.html">看架构文档</a>
+      <a class="btn btn-ghost" href="/download.html">下载 Windows 版</a>
+    </div>
+    <div class="hero-facts" aria-label="能力数据">
+      <span><b>7</b>能力层</span>
+      <span><b>19<em>+</em></b>内置工具</span>
+      <span><b>9</b>官方插件</span>
+      <span><b>4</b>Goal 阶段</span>
+      <span><b>0</b>云端依赖</span>
+      <span><b>MIT</b>开源协议</span>
+    </div>
+  </section>
 
-  <div class="grid">
-    <div class="card"><span class="tag">core-runtime</span><h3>会话运行时</h3>
-      <p>ConversationRuntime 驱动「模型回合 → 工具调用 → 结果回注」循环；流式输出、token 统计
-        （首 token 时间、缓存去重、解码速率如实展示）、上下文压缩。</p></div>
-    <div class="card"><span class="tag">tool-registry</span><h3>内置工具</h3>
-      <p>bash、powershell、read/write/edit、glob、grep、web fetch/search、todo、skill、repl、
-        结构化输出、子代理等 19+ 工具；统一权限裁决与执行协议。</p></div>
-    <div class="card"><span class="tag">plugin-system</span><h3>插件系统</h3>
-      <p>manifest 声明元数据/权限/工具清单；安装走原子事务并做来源与兼容校验；内置 TDD、
-        Git 工作流、代码评审、编排器、文档生成、数据库、诊断、监控、市场 9 个插件。</p></div>
-    <div class="card"><span class="tag">Goal</span><h3>多阶段任务</h3>
-      <p>commander / planner / implementer / verifier 流水线；确定性验证门（FilesExist/Command）
-        不过自动回退；重试带上限，预算不被重置。</p></div>
-    <div class="card"><span class="tag">computer-use</span><h3>桌面操控</h3>
-      <p>鼠标键盘、安全点击、分辨率映射、UIA 元素定位、视觉模型坐标解析、截图；
-        定时/后台/轨迹任务集中在任务页统一管理。</p></div>
-    <div class="card"><span class="tag">web-console</span><h3>主控制台</h3>
-      <p>九大主窗口：聊天室、任务、文件、终端、媒体、模型、设置等；单文件前端
-        内联进 Rust 服务，默认 http://127.0.0.1:8765/。</p></div>
-    <div class="card"><span class="tag">gui-desktop</span><h3>桌面壳与桌宠</h3>
-      <p>Tauri shell、桌宠、启动器；Q 版头像库（DeepSeek 鲸鱼娘系列）+ 自定义上传；
-        多开同端口实例经身份验证后平滑切换。</p></div>
-    <div class="card"><span class="tag">voice &amp; media</span><h3>语音与媒体</h3>
-        <p>实时语音会话（STT ↔ 模型 ↔ TTS 闭环）；Agnes Image / Video、OpenRouter 渠道，
-        媒体用量与对话 token 分开统计。</p></div>
-    <div class="card"><span class="tag">bridge</span><h3>桥接能力</h3>
-      <p>浏览器桥接与微信私聊连接；聊天室可以驱动跨进程 Agent 对端（chat_handoff）。</p></div>
-    <div class="card"><span class="tag">workspace</span><h3>工程与保护</h3>
-      <p>多工程工作区；默认工程受保护（禁止移除/删除/重命名）；回收站删除；
-        路径显示去 <code>\\?\</code> 前缀但保留原始路径做权限判断。</p></div>
-    <div class="card"><span class="tag">diagnostics</span><h3>诊断与回归</h3>
-      <p>发布前跑全量分组回归（0.2.142 记录：后端 1,539 项、前端 50 项、启动器 79 项）；
-        候选制品做隐私扫描与二进制哈希核对。</p></div>
-    <div class="card"><span class="tag">security</span><h3>权限与隐私</h3>
-      <p>权限按聊天室归属；外部目录逐次审批、完全访问二次确认且重启失效；
-        可选 Windows 低完整性沙箱；12 小时窗口自动清理运行记录。</p></div>
-  </div>
-</section>
+  <section class="page-section" aria-labelledby="layers-title">
+    <div class="section-head">
+      <p class="kicker">THE SEVEN LAYERS</p>
+      <h2 id="layers-title">每一层，都有独立的设计</h2>
+      <p>从目标进入运行时，到工具真正落地，再到结果被验证，七层各司其职。首页为每一层准备了独立的动态图示，这里给出能力边界与关键机制。</p>
+    </div>
+
+    <div class="card-grid">
+      <article class="card" style="border-top:2px solid #7bf0b4">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.5"/><circle cx="5" cy="5" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="19" cy="5" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="5" cy="19" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="19" cy="19" r="2" stroke="currentColor" stroke-width="1.5"/><path d="m10 10-3.4-3.4M14 10l3.4-3.4M10 14l-3.4 3.4M14 14l3.4 3.4" stroke="currentColor" stroke-width="1.3"/></svg>
+        </div>
+        <span class="tag">01 · ORCHESTRATION</span>
+        <h3>多 Agent 协同编排</h3>
+        <p>不同角色共享同一套会话、工具与权限边界。指挥官拆目标，规划者排步骤，执行者动手，验证者把关；需要并行时，子代理接手独立任务。</p>
+        <ul class="feature-points" style="margin-top:14px">
+          <li>多聊天室 Agent 并存，权限按聊天室归属。</li>
+          <li><code>chat_handoff</code> 连同上下文交接任务。</li>
+          <li>子代理并行处理独立子任务。</li>
+        </ul>
+      </article>
+
+      <article class="card" style="border-top:2px solid #5fd7ef">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 21h8M12 18v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="m10 9 2 2 3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="tag">02 · COMPUTER USE</span>
+        <h3>看得懂桌面，也点得准按钮</h3>
+        <p>UIA 元素树与视觉模型双通道定位，把屏幕上的一个按钮变成可验证的坐标与动作。鼠标、键盘、拖拽、组合键都走安全点击路径。</p>
+        <ul class="feature-points" style="margin-top:14px">
+          <li>UIA + 视觉坐标解析，多分辨率下仍能对准。</li>
+          <li>安全点击、回收站删除、默认工程保护。</li>
+          <li>外部目录写入逐次审批，完全访问重启失效。</li>
+        </ul>
+      </article>
+
+      <article class="card" style="border-top:2px solid #6fe3f5">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 8h18" stroke="currentColor" stroke-width="1.5"/><circle cx="6" cy="6" r=".8" fill="currentColor"/><circle cx="8.5" cy="6" r=".8" fill="currentColor"/><path d="M8 12h8M8 15h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <span class="tag">03 · BROWSER USE</span>
+        <h3>把浏览器变成 Agent 的另一双手</h3>
+        <p>浏览器桥接让 Agent 操作真实网页，而不是只抓一段 HTML：语义定位元素、输入、点击、滑块、拖拽、组合键，按标签页租约隔离任务。</p>
+        <ul class="feature-points" style="margin-top:14px">
+          <li>DOM 语义定位优先，视觉兜底。</li>
+          <li>标签页租约避免任务互相抢页面。</li>
+          <li>受限内部页与扩展页不直接操作。</li>
+        </ul>
+      </article>
+
+      <article class="card" style="border-top:2px solid #b79cff">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10 4H5a1 1 0 0 0-1 1v5a1 1 0 0 0 .3.7l9 9a1 1 0 0 0 1.4 0l5-5a1 1 0 0 0 0-1.4l-9-9A1 1 0 0 0 10 4Z" stroke="currentColor" stroke-width="1.5"/><circle cx="7.5" cy="7.5" r="1.2" fill="currentColor"/><path d="M14 4h5a1 1 0 0 1 1 1v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <span class="tag">04 · PLUGIN TOOLS</span>
+        <h3>工具不是写死的，能力可以长出来</h3>
+        <p>插件用 manifest 声明元数据、权限与工具清单，安装走原子事务：来源校验、兼容检查、失败回滚。9 个官方插件开箱即用，也可以封装团队工作流。</p>
+        <ul class="feature-points" style="margin-top:14px">
+          <li>TDD、Git、评审、编排、文档、数据库、诊断、监控、市场。</li>
+          <li>技能支持创建、安装、按会话启用。</li>
+          <li>安装失败自动回滚，不留半装状态。</li>
+        </ul>
+      </article>
+
+      <article class="card" style="border-top:2px solid #e7cc86">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 4 6v5c0 5 3.4 8 8 10 4.6-2 8-5 8-10V6l-8-3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m8.5 12 2.3 2.3 4.7-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="tag">05 · PERMISSION &amp; AUDIT</span>
+        <h3>每一次放行，都留下证据</h3>
+        <p>权限不是一句「允许访问」，而是一条可审计的链路：请求进入闸门，按聊天室与路径策略评估，高危动作等待人工批准，执行结果写回审计字段。</p>
+        <ul class="feature-points" style="margin-top:14px">
+          <li>未知权限元数据 fail-closed，不默放。</li>
+          <li>审批可携带 updatedInput / updatedPermissions。</li>
+          <li>可选 Windows 低完整性沙箱。</li>
+        </ul>
+      </article>
+
+      <article class="card" style="border-top:2px solid #ffb86b">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 4v16M5 5h11l-2 3 2 3H5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 17h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="19" cy="17" r="1.4" fill="currentColor"/></svg>
+        </div>
+        <span class="tag">06 · GOAL PIPELINE</span>
+        <h3>把长任务拆成可验收的四个阶段</h3>
+        <p>commander → planner → implementer → verifier 的确定性流水线：验证门不过就带着原因回退重改，重试有上限，预算不被重置。</p>
+        <ul class="feature-points" style="margin-top:14px">
+          <li>验证门支持 FilesExist / Command。</li>
+          <li>implementer 受阻回 planner 重规划。</li>
+          <li>阶段状态落 SQLite，可暂停、恢复、人工验收。</li>
+        </ul>
+      </article>
+
+      <article class="card" style="border-top:2px solid #5fd7ef">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5-9-5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="tag">07 · PROVIDER ACCESS</span>
+        <h3>一个总线，接住所有模态</h3>
+        <p>文本、视觉、生图、生视频、本地模型走同一个 llm-adapter：OpenAI 兼容接口、订阅、OpenRouter、Ollama / 自定义端点，按模型类型独立配置。</p>
+        <ul class="feature-points" style="margin-top:14px">
+          <li>多模态与文本：Agnes 3.0 Flash、OpenAI 兼容、Devin、ChatGPT 订阅。</li>
+          <li>生图 / 生视频：Agnes Image / Video、OpenRouter。</li>
+          <li>本地：Ollama 或任意 OpenAI 兼容端点。</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="runtime-title">
+    <div class="section-head">
+      <p class="kicker">RUNTIME FOUNDATION</p>
+      <h2 id="runtime-title">七层之下，是一台完整的本地运行时</h2>
+      <p>能力层不是演示文稿里的方块。它们共享同一个会话循环、工具注册表、权限系统与持久化层。</p>
+    </div>
+    <div class="card-grid">
+      <div class="card"><span class="tag">CORE</span><h3>会话运行时</h3><p>ConversationRuntime 驱动「模型回合 → 工具调用 → 结果回注」循环；流式输出、token 统计、上下文压缩。</p></div>
+      <div class="card"><span class="tag">TOOLS</span><h3>19+ 内置工具</h3><p>bash、powershell、文件读写编辑、glob/grep、web fetch/search、todo、skill、repl、结构化输出、子代理。</p></div>
+      <div class="card"><span class="tag">CONSOLE</span><h3>Web 控制台</h3><p>聊天室、任务、文件、终端、媒体、模型、设置等九大主窗口；默认 http://127.0.0.1:8765/。</p></div>
+      <div class="card"><span class="tag">DESKTOP</span><h3>桌面壳与桌宠</h3><p>Tauri shell、桌宠、启动器；Q 版头像库与自定义上传；多开同端口实例平滑切换。</p></div>
+      <div class="card"><span class="tag">MEDIA</span><h3>语音与媒体</h3><p>实时语音会话（STT ↔ 模型 ↔ TTS）；Agnes Image / Video、OpenRouter 渠道；媒体用量独立统计。</p></div>
+      <div class="card"><span class="tag">TRUST</span><h3>诊断与回归</h3><p>发布前全量分组回归：后端 1,539 项、前端 50 项、启动器 79 项；候选制品隐私扫描与哈希核对。</p></div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="card" style="padding:clamp(28px,4vw,48px);background:linear-gradient(135deg,rgba(123,240,180,.1),rgba(95,215,239,.05))">
+      <p class="kicker">NEXT STEP</p>
+      <h2 style="margin-top:14px">把问题直接丢给 Agent</h2>
+      <p>首页中央的 Agent 对话默认接入 Agnes 3.0 Flash。你可以填自己的 Key，也可以直接用站点公共额度；同 IP 每日 5 次、全站每日 500 次的限流保持不变。</p>
+      <div class="hero-actions" style="margin-top:22px">
+        <a class="btn btn-primary" href="/#agent">打开 Agent 对话</a>
+        <a class="btn" href="/docs/quickstart.html">阅读快速开始</a>
+      </div>
+    </div>
+  </section>
+</main>
 
 <footer class="site-footer">
-  <span>© 2026 coolzhuagent · MIT License</span>
-  <a href="/privacy.html">隐私</a><a href="/contact.html">联系</a>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a class="brand" href="/" aria-label="coolzhuagent 首页">
+        <img class="brand-mark" src="/assets/logo.svg" alt="" width="42" height="42">
+        <span class="brand-type"><b>COOLZHU</b><span>AGENT RUNTIME</span></span>
+      </a>
+      <p>本地优先的 Rust AI Agent 工作台。让 Agent 真正动手，让权限始终在你手里。</p>
+      <span class="footer-badge"><i></i> MIT License · Windows 10/11</span>
+    </div>
+    <div class="footer-col">
+      <h4>产品</h4>
+      <a href="/features.html">能力总览</a>
+      <a href="/download.html">下载 Windows 版</a>
+      <a href="/changelog.html">更新记录</a>
+      <a href="/compare.html">与 Claude Code 对比</a>
+    </div>
+    <div class="footer-col">
+      <h4>资源</h4>
+      <a href="/docs/quickstart.html">快速开始</a>
+      <a href="/docs/architecture.html">架构总览</a>
+      <a href="/docs/security-model.html">安全模型</a>
+      <a href="/docs/plugins.html">插件开发</a>
+    </div>
+    <div class="footer-col">
+      <h4>项目</h4>
+      <a href="https://github.com/coolzhulike/coolzhuagent" target="_blank" rel="noopener noreferrer">GitHub 仓库</a>
+      <a href="/contact.html">联系与反馈</a>
+      <a href="/privacy.html">隐私说明</a>
+      <a href="/#agent">Agent 对话</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 coolzhuagent · MIT License</span>
+    <span class="notice">站点 Agent 由 AI 辅助生成回答，仅供参考；不构成价格、时效或功能承诺。</span>
+  </div>
+  <div class="footer-ghost" aria-hidden="true">COOLZHU</div>
 </footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="/assets/theme.js"></script>
-<script src="/assets/chat-widget.js"></script>
 </body>
 </html>

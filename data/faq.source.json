@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-28",
+  "updatedAt": "2026-10-30",
   "site": {
     "name": "coolzhuagent",
-    "contact": "coolzhu@example.com",
+    "contact": "",
     "contactText": "如需人工帮助，请见联系页 /contact.html"
   },
   "items": [
@@ -122,8 +122,8 @@
       "category": "反馈",
       "question": "遇到问题怎么反馈？",
       "aliases": ["怎么报bug", "联系方式", "有问题找谁", "反馈渠道"],
-      "answer": "见联系页（/contact.html）：可通过仓库 issue 或联系邮箱反馈。反馈时请附上版本号（下载页可查）和复现步骤；本应用有完善的诊断模块，必要时可在「诊断」窗口导出信息。",
-      "keywords": ["反馈", "联系", "bug", "issue", "邮箱"],
+      "answer": "见联系页（/contact.html）：可通过仓库 issue 反馈。反馈时请附上版本号（下载页可查）和复现步骤；本应用有完善的诊断模块，必要时可在「诊断」窗口导出信息。",
+      "keywords": ["反馈", "联系", "bug", "issue"],
       "related": [],
       "enabled": true
     },
@@ -155,6 +155,86 @@
       "answer": "部分可以：本地工具（文件、搜索、终端）、聊天室管理、任务页等在离线时可用；模型对话、图像/视频生成、联网搜索需要网络。源码构建支持 `--offline` 离线编译（依赖已缓存时）。",
       "keywords": ["离线", "断网", "联网", "本地"],
       "related": ["faq-003", "faq-011"],
+      "enabled": true
+    },
+    {
+      "id": "faq-016",
+      "category": "功能",
+      "question": "多 Agent 协同编排是怎么工作的？",
+      "aliases": ["多Agent怎么协同", "多个Agent怎么配合", "agent编排", "指挥官规划者执行者验证者", "chat_handoff"],
+      "answer": "coolzhuagent 让多个 Agent 共享同一套会话、工具与权限边界：commander 拆目标，planner 排步骤，implementer 执行，verifier 验收；需要并行时子代理接手独立任务。`chat_handoff` 可把任务连同上下文交给另一个已配置 Agent；权限按聊天室归属，互不越界。",
+      "keywords": ["多Agent", "协同", "编排", "commander", "planner", "implementer", "verifier", "handoff", "子代理"],
+      "related": ["faq-008", "faq-020"],
+      "enabled": true
+    },
+    {
+      "id": "faq-017",
+      "category": "功能",
+      "question": "Computer Use 能做什么？安全吗？",
+      "aliases": ["电脑操作", "自动点鼠标", "桌面操控", "UIA", "视觉定位", "会不会误删"],
+      "answer": "Computer Use 让 Agent 操作真实 Windows 桌面：UIA 元素树 + 视觉坐标双通道定位，鼠标、键盘、拖拽、组合键、截图都走安全点击路径。危险操作先停下审批；文件删除走回收站，默认工程受保护；外部目录写入逐次审批，完全访问需二次确认且重启失效；可选 Windows 低完整性沙箱。",
+      "keywords": ["Computer Use", "电脑操作", "桌面", "UIA", "视觉", "安全点击", "审批", "沙箱"],
+      "related": ["faq-009", "faq-018"],
+      "enabled": true
+    },
+    {
+      "id": "faq-018",
+      "category": "功能",
+      "question": "Browser Use 怎么操作网页？",
+      "aliases": ["浏览器桥接", "Browser Bridge", "操作网页", "标签页租约", "DOM定位", "网页自动化"],
+      "answer": "Browser Use 通过 Browser Bridge 操作真实浏览器：优先用 DOM 语义定位元素，视觉兜底；支持输入、点击、滑块、拖拽、组合键。每个任务持有标签页租约，避免多个任务互相抢页面；只关闭自己创建的标签；受限内部页与扩展页不直接操作。",
+      "keywords": ["Browser Use", "浏览器", "桥接", "DOM", "标签页", "租约", "自动化"],
+      "related": ["faq-009", "faq-016"],
+      "enabled": true
+    },
+    {
+      "id": "faq-019",
+      "category": "插件",
+      "question": "插件和工具体系怎么用？",
+      "aliases": ["插件系统", "插件怎么装", "官方插件", "技能", "manifest", "原子安装"],
+      "answer": "插件用 manifest 声明元数据、权限与工具清单；安装走原子事务：来源校验、兼容检查、失败回滚。内置 9 个官方插件：TDD、Git 工作流、代码评审、编排器、文档生成、数据库、诊断、监控、市场。技能（Skill）支持创建、安装、按会话启用，不污染全局上下文。",
+      "keywords": ["插件", "工具", "manifest", "官方插件", "技能", "原子安装", "回滚"],
+      "related": ["faq-007", "faq-006"],
+      "enabled": true
+    },
+    {
+      "id": "faq-020",
+      "category": "安全",
+      "question": "权限闸门和审计是怎么做的？",
+      "aliases": ["权限系统", "审批流程", "安全审计", "fail-closed", "permission gate", "审计日志"],
+      "answer": "权限不是一句「允许访问」，而是一条可审计链路：请求进入闸门，按聊天室与路径策略评估；高危动作等待人工批准；审批可携带 updatedInput / updatedPermissions，批准后仍重走闸门；执行结果写回 outcome.permission_gate。未知权限元数据 fail-closed，不默放；hook 独立授权并留痕；可选 Windows 低完整性沙箱。",
+      "keywords": ["权限", "闸门", "审计", "审批", "fail-closed", "沙箱", "hook"],
+      "related": ["faq-009", "faq-017"],
+      "enabled": true
+    },
+    {
+      "id": "faq-021",
+      "category": "功能",
+      "question": "Goal 流水线怎么验收长任务？",
+      "aliases": ["Goal怎么验收", "长任务怎么保证完成", "验证门", "FilesExist", "Command验证", "重试上限"],
+      "answer": "Goal 模式按 commander → planner → implementer → verifier 四阶段执行。验证门支持 FilesExist / Command，产出必须通过真实检查；implementer 受阻回 planner 重规划，verifier 不通过回 implementer 重改；重试有上限，预算不被重置。阶段状态落 SQLite，可暂停、恢复、人工验收。",
+      "keywords": ["Goal", "验收", "验证门", "FilesExist", "Command", "重试", "SQLite"],
+      "related": ["faq-008", "faq-016"],
+      "enabled": true
+    },
+    {
+      "id": "faq-022",
+      "category": "模型",
+      "question": "支持哪些 Provider 和模态？",
+      "aliases": ["模型接入", "Provider列表", "多模态", "生图", "生视频", "本地模型", "Ollama", "OpenRouter"],
+      "answer": "所有模态走同一个 llm-adapter：文本/视觉支持 Agnes 3.0 Flash、OpenAI 兼容接口、Devin、ChatGPT 订阅、OpenRouter；生图/生视频支持 Agnes Image / Video 与 OpenRouter 渠道；本地支持 Ollama 或任意自定义 OpenAI 兼容端点，数据不出内网。按模型类型独立配置，路由、流式与降级在总线内完成。",
+      "keywords": ["Provider", "模型", "多模态", "Agnes", "OpenRouter", "Ollama", "本地", "生图", "生视频"],
+      "related": ["faq-004", "faq-005"],
+      "enabled": true
+    },
+    {
+      "id": "faq-023",
+      "category": "站点",
+      "question": "站点 Agent 用的是什么模型？Key 怎么填？",
+      "aliases": ["客服用什么模型", "Agnes API Key", "自带Key", "API Key填哪里", "每日次数", "限流规则"],
+      "answer": "站点 Agent 默认使用 Agnes `agnes-3.0-flash`。你可以在首页中央 Agent 窗口填入自己的 Agnes API Key，Key 只写入当前浏览器 sessionStorage，随请求通过 X-Agnes-Key 转发，不落站点日志；不填则使用站点公共额度。限流不变：同 IP 每日 5 次、全站每日 500 次，按 UTC+8 重置；自带 Key 同样受限流保护。",
+      "keywords": ["Agent", "Agnes", "API Key", "自带Key", "限流", "每日5次", "sessionStorage"],
+      "related": ["faq-004", "faq-011"],
       "enabled": true
     }
   ]

@@ -4,48 +4,126 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<meta name="description" content="coolzhuagent 联系方式与反馈渠道。">
+<meta name="theme-color" content="#040807">
+<meta name="description" content="coolzhuagent 联系方式、问题反馈与 Agent 对话入口。">
 <title>联系 · coolzhuagent</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050b0a'/%3E%3Cpath d='M18 18h28v8H27v12h19v8H18z' fill='%2377e6ad'/%3E%3C/svg%3E">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/theme.css">
-<link rel="stylesheet" href="/assets/chat-widget.css">
 </head>
 <body>
-<header class="topbar">
-  <a class="brand" href="/">COOLZHU<span>AGENT</span></a>
-  <nav class="topnav">
-    <a href="/features.html">特性</a>
-    <a href="/docs/quickstart.html">文档</a>
-    <a href="/download.html">下载</a>
-    <a href="/compare.html">对标</a>
-    <a href="/changelog.html">更新</a>
-  </nav>
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="coolzhuagent 首页">
+      <img class="brand-mark" src="/assets/logo.svg" alt="" width="38" height="38">
+      <span class="brand-type"><b>COOLZHU</b><span>AGENT RUNTIME</span></span>
+    </a>
+    <nav class="nav" id="site-nav" aria-label="主导航">
+      <a href="/#capabilities">能力</a>
+      <a href="/#film">宣传片</a>
+      <a href="/#agent">Agent 对话</a>
+      <a href="/docs/quickstart.html">文档</a>
+      <a href="/download.html">下载</a>
+      <a href="/compare.html">对标</a>
+      <a class="nav-cta" href="/download.html">下载 Windows 版</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="打开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span>
+    </button>
+  </div>
 </header>
 
-<section class="section">
-  <div class="section-heading">
-    <p class="eyebrow">CONTACT</p>
-    <h2>联系与反馈</h2>
-  </div>
-  <div class="grid">
-    <div class="card"><h3>问题反馈</h3>
-      <p>缺陷与功能建议：通过项目仓库 issue 提交，请附版本号（见下载页）与复现步骤；
-        应用内「诊断」窗口可导出必要信息。</p></div>
-    <div class="card"><h3>邮件</h3>
-      <p>一般咨询与删除请求：<a href="mailto:coolzhu@example.com">coolzhu@example.com</a>
-        （占位——上线前替换为真实邮箱）。</p></div>
-    <div class="card"><h3>FAQ 客服</h3>
-      <p>常见问题优先用右下角悬浮客服：每日 5 次免费问答，答不了的会给到文档与联系入口。</p></div>
-    <div class="card"><h3>响应说明</h3>
-      <p>个人维护项目，回复通常在 1–3 个工作日；安全相关问题请邮件联系并标注 [security]。</p></div>
-  </div>
-</section>
+<main id="main">
+  <section class="page-hero">
+    <p class="kicker">CONTACT &amp; FEEDBACK</p>
+    <h1>找到对的人，或者直接问 Agent</h1>
+    <p>缺陷、功能建议、安全报告、合作咨询——不同的事情走不同入口。简单问题可以先问首页中央的 Agent，复杂问题再走 issue 或安全报告。</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="/#agent">打开 Agent 对话</a>
+      <a class="btn" href="https://github.com/coolzhulike/coolzhuagent/issues" target="_blank" rel="noopener noreferrer">提交 Issue</a>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="card-grid">
+      <div class="card">
+        <span class="tag">ISSUE</span>
+        <h3>问题反馈</h3>
+        <p>缺陷与功能建议：通过项目仓库 issue 提交，请附版本号（见下载页）与复现步骤；应用内「诊断」窗口可导出必要信息。</p>
+        <p style="margin-top:12px"><a href="https://github.com/coolzhulike/coolzhuagent/issues" target="_blank" rel="noopener noreferrer">github.com/coolzhulike/coolzhuagent/issues</a></p>
+      </div>
+      <div class="card">
+        <span class="tag">SECURITY</span>
+        <h3>安全报告</h3>
+        <p>安全问题请通过仓库 Security 页面私密报告，不要在公开 issue 中粘贴密钥、个人信息或未修复漏洞细节。</p>
+        <p style="margin-top:12px"><a href="https://github.com/coolzhulike/coolzhuagent/security" target="_blank" rel="noopener noreferrer">github.com/coolzhulike/coolzhuagent/security</a></p>
+      </div>
+      <div class="card">
+        <span class="tag">AGENT</span>
+        <h3>先问 Agent</h3>
+        <p>安装、七层能力、插件、权限安全、Goal 流水线、模型接入等常见问题，可以直接在<a href="/#agent">首页中央的 Agent 对话</a>里问。每日 5 次免费额度，答不了会给到文档与联系入口。</p>
+      </div>
+      <div class="card">
+        <span class="tag">SLA</span>
+        <h3>响应说明</h3>
+        <p>个人维护项目，回复通常在 1–3 个工作日。安全报告优先处理；请勿在公开 issue 中粘贴密钥、个人信息或未修复漏洞细节。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:22px">
+      <span class="tag">BEFORE YOU WRITE</span>
+      <h3>让反馈更快被处理</h3>
+      <ul>
+        <li>附上版本号（下载页或应用「关于」可查）与 Windows 版本。</li>
+        <li>描述最小复现步骤：做了什么、期望什么、实际发生了什么。</li>
+        <li>涉及模型时说明 Provider 与模型 ID，但不要粘贴 API Key。</li>
+        <li>涉及 Computer Use / Browser Use 时说明是否经过审批、是否可复现。</li>
+      </ul>
+    </div>
+  </section>
+</main>
 
 <footer class="site-footer">
-  <span>© 2026 coolzhuagent · MIT License</span>
-  <a href="/privacy.html">隐私</a><a href="/contact.html">联系</a>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a class="brand" href="/" aria-label="coolzhuagent 首页">
+        <img class="brand-mark" src="/assets/logo.svg" alt="" width="42" height="42">
+        <span class="brand-type"><b>COOLZHU</b><span>AGENT RUNTIME</span></span>
+      </a>
+      <p>本地优先的 Rust AI Agent 工作台。让 Agent 真正动手，让权限始终在你手里。</p>
+      <span class="footer-badge"><i></i> MIT License · Windows 10/11</span>
+    </div>
+    <div class="footer-col">
+      <h4>产品</h4>
+      <a href="/features.html">能力总览</a>
+      <a href="/download.html">下载 Windows 版</a>
+      <a href="/changelog.html">更新记录</a>
+      <a href="/compare.html">与 Claude Code 对比</a>
+    </div>
+    <div class="footer-col">
+      <h4>资源</h4>
+      <a href="/docs/quickstart.html">快速开始</a>
+      <a href="/docs/architecture.html">架构总览</a>
+      <a href="/docs/security-model.html">安全模型</a>
+      <a href="/docs/plugins.html">插件开发</a>
+    </div>
+    <div class="footer-col">
+      <h4>项目</h4>
+      <a href="https://github.com/coolzhulike/coolzhuagent" target="_blank" rel="noopener noreferrer">GitHub 仓库</a>
+      <a href="/contact.html">联系与反馈</a>
+      <a href="/privacy.html">隐私说明</a>
+      <a href="/#agent">Agent 对话</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 coolzhuagent · MIT License</span>
+    <span class="notice">站点 Agent 由 AI 辅助生成回答，仅供参考；不构成价格、时效或功能承诺。</span>
+  </div>
+  <div class="footer-ghost" aria-hidden="true">COOLZHU</div>
 </footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="/assets/theme.js"></script>
-<script src="/assets/chat-widget.js"></script>
 </body>
 </html>

@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="coolzhu agent official film placeholder">
+  <defs>
+    <radialGradient id="bg" cx="0" cy="0" r="1" gradientTransform="translate(800 360) rotate(90) scale(620 980)">
+      <stop stop-color="#0D2B21"/>
+      <stop offset=".52" stop-color="#07130F"/>
+      <stop offset="1" stop-color="#030806"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(800 390) rotate(90) scale(330)">
+      <stop stop-color="#7BF0B4" stop-opacity=".22"/>
+      <stop offset=".55" stop-color="#5FD7EF" stop-opacity=".06"/>
+      <stop offset="1" stop-color="#5FD7EF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line" x1="160" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7BF0B4" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#7BF0B4" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#5FD7EF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="650" y1="300" x2="950" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C6FFE0"/>
+      <stop offset=".5" stop-color="#7BF0B4"/>
+      <stop offset="1" stop-color="#5FD7EF"/>
+    </linearGradient>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" fill="none" stroke="#7BF0B4" stroke-opacity=".055"/>
+    </pattern>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <ellipse cx="800" cy="420" rx="620" ry="390" fill="url(#glow)"/>
+  <g opacity=".8">
+    <circle cx="800" cy="420" r="310" fill="none" stroke="#7BF0B4" stroke-opacity=".12" stroke-dasharray="3 10"/>
+    <circle cx="800" cy="420" r="235" fill="none" stroke="#5FD7EF" stroke-opacity=".12"/>
+    <circle cx="800" cy="420" r="160" fill="none" stroke="#E7CC86" stroke-opacity=".1" stroke-dasharray="2 8"/>
+    <path d="M800 90v90M800 660v90M470 420h90M1040 420h90" stroke="#7BF0B4" stroke-opacity=".18"/>
+    <circle cx="800" cy="90" r="3" fill="#7BF0B4"/>
+    <circle cx="800" cy="750" r="3" fill="#5FD7EF"/>
+    <circle cx="470" cy="420" r="3" fill="#E7CC86"/>
+    <circle cx="1130" cy="420" r="3" fill="#5FD7EF"/>
+  </g>
+  <g filter="url(#soft)" opacity=".5">
+    <circle cx="800" cy="420" r="150" fill="#7BF0B4" fill-opacity=".18"/>
+  </g>
+  <g transform="translate(680 300)">
+    <path d="M232 22H73C38.759 22 11 49.759 11 84v72c0 34.241 27.759 62 62 62h159"
+          stroke="url(#mark)" stroke-width="24" stroke-linecap="round"/>
+    <path d="M202 66H139l63 88H139"
+          stroke="url(#mark)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="232" cy="22" r="12" fill="#E7CC86"/>
+    <circle cx="232" cy="218" r="12" fill="#5FD7EF"/>
+  </g>
+  <text x="800" y="646" text-anchor="middle" fill="#F1FAF5" font-family="Segoe UI, Microsoft YaHei UI, sans-serif" font-size="30" font-weight="700" letter-spacing="8">宣传片即将上线</text>
+  <text x="800" y="692" text-anchor="middle" fill="#9BB3A8" font-family="Consolas, monospace" font-size="15" letter-spacing="5">COOLZHU AGENT · OFFICIAL FILM · 2026</text>
+  <path d="M160 800h1280" stroke="url(#line)" stroke-width="1"/>
+  <text x="160" y="836" fill="#9BB3A8" font-family="Consolas, monospace" font-size="14" letter-spacing="4">LOCAL-FIRST AGENT RUNTIME</text>
+  <text x="1440" y="836" text-anchor="end" fill="#9BB3A8" font-family="Consolas, monospace" font-size="14" letter-spacing="4">WINDOWS · MIT</text>
+  <g stroke="#7BF0B4" stroke-opacity=".4">
+    <path d="M56 56h48M56 56v48M1544 56h-48M1544 56v48M56 844h48M56 844v-48M1544 844h-48M1544 844v-48"/>
+  </g>
+</svg>

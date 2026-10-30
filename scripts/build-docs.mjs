@@ -88,28 +88,90 @@ function titleOf(md, fallback) {
   return m ? m[1].trim() : fallback;
 }
 
-function page(title, body, nav, current) {
+const FOOTER_HTML = `<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a class="brand" href="/" aria-label="coolzhuagent 首页">
+        <img class="brand-mark" src="/assets/logo.svg" alt="" width="42" height="42">
+        <span class="brand-type"><b>COOLZHU</b><span>AGENT RUNTIME</span></span>
+      </a>
+      <p>本地优先的 Rust AI Agent 工作台。让 Agent 真正动手，让权限始终在你手里。</p>
+      <span class="footer-badge"><i></i> MIT License · Windows 10/11</span>
+    </div>
+    <div class="footer-col">
+      <h4>产品</h4>
+      <a href="/features.html">能力总览</a>
+      <a href="/download.html">下载 Windows 版</a>
+      <a href="/changelog.html">更新记录</a>
+      <a href="/compare.html">与 Claude Code 对比</a>
+    </div>
+    <div class="footer-col">
+      <h4>资源</h4>
+      <a href="/docs/quickstart.html">快速开始</a>
+      <a href="/docs/architecture.html">架构总览</a>
+      <a href="/docs/security-model.html">安全模型</a>
+      <a href="/docs/plugins.html">插件开发</a>
+    </div>
+    <div class="footer-col">
+      <h4>项目</h4>
+      <a href="https://github.com/coolzhulike/coolzhuagent" target="_blank" rel="noopener noreferrer">GitHub 仓库</a>
+      <a href="/contact.html">联系与反馈</a>
+      <a href="/privacy.html">隐私说明</a>
+      <a href="/#agent">Agent 对话</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 coolzhuagent · MIT License</span>
+    <span class="notice">站点 Agent 由 AI 辅助生成回答，仅供参考；不构成价格、时效或功能承诺。</span>
+  </div>
+  <div class="footer-ghost" aria-hidden="true">COOLZHU</div>
+</footer>`;
+
+function page(title, body, nav) {
   return `<!doctype html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#040807">
 <meta name="description" content="${esc(title)} — coolzhuagent 文档">
 <title>${esc(title)} · coolzhuagent 文档</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050b0a'/%3E%3Cpath d='M18 18h28v8H27v12h19v8H18z' fill='%2377e6ad'/%3E%3C/svg%3E">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/theme.css">
 </head>
 <body class="docs-body">
-<header class="topbar"><a class="brand" href="/">COOLZHU<span>AGENT</span></a>
-<nav class="topnav"><a href="/features.html">特性</a><a href="/docs/quickstart.html" class="active">文档</a><a href="/download.html">下载</a><a href="/compare.html">对标</a></nav>
+<a class="skip-link" href="#main">跳到主要内容</a>
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="coolzhuagent 首页">
+      <img class="brand-mark" src="/assets/logo.svg" alt="" width="38" height="38">
+      <span class="brand-type"><b>COOLZHU</b><span>AGENT RUNTIME</span></span>
+    </a>
+    <nav class="nav" id="site-nav" aria-label="主导航">
+      <a href="/#capabilities">能力</a>
+      <a href="/#film">宣传片</a>
+      <a href="/#agent">Agent 对话</a>
+      <a href="/docs/quickstart.html" class="active">文档</a>
+      <a href="/download.html">下载</a>
+      <a href="/compare.html">对标</a>
+      <a class="nav-cta" href="/download.html">下载 Windows 版</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="打开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span>
+    </button>
+  </div>
 </header>
-<div class="docs-layout">
-<aside class="docs-nav"><h3>文档</h3>${nav}</aside>
-<main class="docs-content"><article>${body}</article>
-<footer class="site-footer"><a href="/docs/quickstart.html">文档首页</a> · <a href="/privacy.html">隐私</a> · <a href="/contact.html">联系</a></footer>
+<main id="main" class="docs-layout">
+  <aside class="docs-nav"><h3>文档</h3>${nav}</aside>
+  <div class="docs-content">
+    <article>${body}</article>
+    <div class="docs-footer">coolzhuagent docs · MIT License · <a href="/">返回官网</a></div>
+  </div>
 </main>
-</div>
+${FOOTER_HTML}
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="/assets/theme.js"></script>
 </body>
 </html>`;
 }
