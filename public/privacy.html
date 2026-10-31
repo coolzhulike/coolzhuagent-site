@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#040807">
-<meta name="description" content="coolzhuagent 隐私说明：站点不收集个人信息；Agent 对话的 BYOK、Agnes 请求与限流边界。">
+<meta name="description" content="coolzhuagent 隐私说明：站点不收集个人信息；Agent 对话的服务端 Key、Agnes 请求与限流边界。">
 <title>隐私说明 · coolzhuagent</title>
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/theme.css">
@@ -38,7 +38,7 @@
   <section class="page-hero">
     <p class="kicker">PRIVACY · 2026-10-30</p>
     <h1>隐私说明</h1>
-    <p>本页说明 coolzhuagent 官网与桌面应用的数据边界。原则很简单：站点不收集个人信息，应用本地优先，Agent 对话的 Key 只留在你的浏览器会话里。</p>
+    <p>本页说明 coolzhuagent 官网与桌面应用的数据边界。原则很简单：站点不收集个人信息，应用本地优先，Agent 对话的 API Key 只留在服务端环境变量里。</p>
   </section>
 
   <section class="page-section">
@@ -46,9 +46,9 @@
     <ul>
       <li><b>不收集个人信息</b>：无注册、无登录、无跟踪脚本、无第三方分析。</li>
       <li><b>Agent 对话</b>：你在首页中央 Agent 窗口输入的问题会发送到本站边缘函数 <code>/api/chat</code>，用于 FAQ 检索与回答；站点默认不持久化问题原文。</li>
-      <li><b>模型调用</b>：当站点公共 Key 或你自带的 Agnes Key 可用时，问题与检索到的 FAQ 上下文会发送给 Agnes（<code>agnes-3.0-flash</code>）生成回答。若模型不可用，则回退到 FAQ 检索或拒答。</li>
-      <li><b>自带 Key（BYOK）</b>：你填入的 Agnes API Key 只写入当前浏览器的 <code>sessionStorage</code>，随请求通过 <code>X-Agnes-Key</code> 头转发给边缘函数，再用于当次 Agnes 请求；不写入站点数据库、不写入日志、不回显。</li>
-      <li><b>限流</b>：为防止滥用，同 IP 每日 5 次、全站每日 500 次，按 UTC+8 重置。IP 以加盐 SHA-256 哈希计数，不存原始 IP；自带 Key 仍受同一限流保护。</li>
+      <li><b>模型调用</b>：当站点内置的 Agnes Key 可用时，问题与检索到的 FAQ 上下文会发送给 Agnes（<code>agnes-3.0-flash</code>）生成回答。若模型不可用，则回退到 FAQ 检索或拒答。</li>
+      <li><b>服务端 Key</b>：Agnes API Key 仅配置在 EdgeOne 边缘函数环境变量中，不下发浏览器、不写入日志、不回显；模型请求由服务端发起，浏览器只发送问题文本。</li>
+      <li><b>限流</b>：为防止滥用与转售，同 IP 每日 5 次、全站每日 500 次，按 UTC+8 重置。IP 以加盐 SHA-256 哈希计数，不存原始 IP；KV 不可用时拒绝请求（fail closed）。</li>
       <li><b>AI 内容标识</b>：Agent 回答由「FAQ 检索 + AI 辅助」生成，仅供参考，不构成价格、时效或功能承诺。</li>
       <li><b>日志</b>：边缘函数仅记录请求量、命中来源、引擎、耗时等运行指标，不含问题原文、原始 IP 或 API Key。</li>
     </ul>
@@ -65,7 +65,7 @@
     <h2>你的选择</h2>
     <ul>
       <li>不使用 Agent 对话：首页其余内容不受影响。</li>
-      <li>清除自带 Key：点击 Agent 窗口上方的「清除」，或直接关闭当前浏览器标签页（<code>sessionStorage</code> 随会话结束失效）。</li>
+      <li>不要在对话中输入密码、API Key、身份证号等敏感信息。</li>
       <li>删除本地数据：卸载应用并删除工程目录即完成。</li>
       <li>疑问或删除请求：见<a href="/contact.html">联系页</a>。</li>
     </ul>
@@ -73,7 +73,7 @@
     <div class="card" style="margin-top:30px">
       <span class="tag">NOTE</span>
       <h3>关于第三方模型服务</h3>
-      <p>当你使用自带 Key 或站点公共额度调用 Agnes 时，问题内容会离开本站并受 Agnes 服务条款与隐私政策约束。请不要在对话中输入密码、密钥、身份证号等敏感信息。</p>
+      <p>当你使用站点内置额度调用 Agnes 时，问题内容会离开本站并受 Agnes 服务条款与隐私政策约束。请不要在对话中输入密码、密钥、身份证号等敏感信息。</p>
     </div>
   </section>
 </main>

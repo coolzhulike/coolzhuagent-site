@@ -230,10 +230,10 @@
     {
       "id": "faq-023",
       "category": "站点",
-      "question": "站点 Agent 用的是什么模型？Key 怎么填？",
-      "aliases": ["客服用什么模型", "Agnes API Key", "自带Key", "API Key填哪里", "每日次数", "限流规则"],
-      "answer": "站点 Agent 默认使用 Agnes `agnes-3.0-flash`。你可以在首页中央 Agent 窗口填入自己的 Agnes API Key，Key 只写入当前浏览器 sessionStorage，随请求通过 X-Agnes-Key 转发，不落站点日志；不填则使用站点公共额度。限流不变：同 IP 每日 5 次、全站每日 500 次，按 UTC+8 重置；自带 Key 同样受限流保护。",
-      "keywords": ["Agent", "Agnes", "API Key", "自带Key", "限流", "每日5次", "sessionStorage"],
+      "question": "站点 Agent 用的是什么模型？Key 在哪里？",
+      "aliases": ["客服用什么模型", "Agnes API Key", "Key在哪里", "API Key怎么配置", "每日次数", "限流规则"],
+      "answer": "站点 Agent 使用服务端内置的 Agnes `agnes-3.0-flash`。API Key 只存在于 EdgeOne 边缘函数环境变量，不下发浏览器、不写日志、不回显；前端只发送问题文本。限流：同 IP 每日 5 次、全站每日 500 次，按 UTC+8 重置；KV 不可用时拒绝请求。",
+      "keywords": ["Agent", "Agnes", "API Key", "服务端", "限流", "每日5次"],
       "related": ["faq-004", "faq-011"],
       "enabled": true
     }

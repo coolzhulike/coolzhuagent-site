@@ -1483,16 +1483,16 @@ pre code { background: none; border: 0; padding: 0; color: #d9f5e8; }
 }
 .agent-icon-btn:hover { color: var(--text); border-color: var(--line-strong); background: rgba(123, 240, 180, .05); }
 .agent-icon-btn svg { width: 15px; height: 15px; }
-.agent-keybar {
+.agent-guard {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 8px 14px;
   padding: 10px 18px;
   border-bottom: 1px solid var(--line);
   background: rgba(123, 240, 180, .035);
 }
-.agent-keybar .key-label {
+.agent-guard .guard-label {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -1502,70 +1502,28 @@ pre code { background: none; border: 0; padding: 0; color: #d9f5e8; }
   letter-spacing: .06em;
   white-space: nowrap;
 }
-.agent-keybar .key-label svg { width: 13px; height: 13px; color: var(--green); }
-.agent-keybar input {
-  flex: 1;
-  min-width: 180px;
-  height: 34px;
-  padding: 0 10px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(3, 9, 7, .65);
-  color: var(--text);
-  font-family: var(--mono);
-  font-size: .66rem;
-  outline: none;
-}
-.agent-keybar input:focus { border-color: rgba(123, 240, 180, .5); box-shadow: 0 0 0 3px rgba(123, 240, 180, .06); }
-.agent-keybar input::placeholder { color: var(--muted-2); }
-.key-btn {
-  height: 34px;
-  padding: 0 12px;
-  border: 1px solid var(--line-strong);
-  border-radius: 8px;
-  background: rgba(123, 240, 180, .08);
-  color: var(--text);
-  font-size: .64rem;
-  font-weight: 650;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.key-btn:hover { border-color: var(--green); background: rgba(123, 240, 180, .13); }
-.key-btn.ghost { border-color: var(--line); background: transparent; color: var(--muted); }
-.key-note {
-  width: 100%;
-  color: var(--muted-2);
-  font-family: var(--mono);
-  font-size: .5rem;
-  line-height: 1.5;
-}
-.key-connected {
-  display: none;
+.agent-guard .guard-label svg { width: 13px; height: 13px; color: var(--green); }
+.guard-state {
+  display: inline-flex;
   align-items: center;
   gap: 7px;
   color: var(--green);
   font-family: var(--mono);
   font-size: .58rem;
 }
-.key-connected i { width: 5px; height: 5px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
-.agent-keybar.connected .key-input-wrap, .agent-keybar.connected .key-save { display: none; }
-.agent-keybar.connected .key-connected { display: inline-flex; }
-.agent-keybar.connected .key-clear { display: inline-flex; }
-.agent-keybar .key-clear { display: none; }
-.key-input-wrap { position: relative; flex: 1; min-width: 180px; display: flex; }
-.key-input-wrap input { width: 100%; padding-right: 38px; }
-.key-eye {
-  position: absolute;
-  right: 4px; top: 4px;
-  width: 26px; height: 26px;
-  display: grid; place-items: center;
-  border: 0; border-radius: 6px;
-  background: transparent;
-  color: var(--muted);
-  cursor: pointer;
+.guard-state i {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
 }
-.key-eye:hover { color: var(--text); background: rgba(255, 255, 255, .04); }
-.key-eye svg { width: 14px; height: 14px; }
+.guard-note {
+  flex: 1 1 100%;
+  color: var(--muted-2);
+  font-family: var(--mono);
+  font-size: .5rem;
+  line-height: 1.5;
+}
 .agent-log {
   height: clamp(300px, 42vh, 430px);
   overflow-y: auto;
@@ -2117,7 +2075,7 @@ tbody tr:hover td { background: rgba(123, 240, 180, .025); }
   .agent-engine { font-size: .5rem; }
   .agent-log { height: 340px; padding: 16px; }
   .msg { max-width: 100%; }
-  .agent-keybar { padding: 10px 14px; }
+  .agent-guard { padding: 10px 14px; }
   .composer { padding: 12px 14px; }
   .agent-foot { padding: 0 14px 12px; }
   .suggestions { padding: 0 16px 12px; }
@@ -2156,9 +2114,8 @@ tbody tr:hover td { background: rgba(123, 240, 180, .025); }
   .agent-engine { display: none; }
   .agent-titlebar { padding: 11px 13px; }
   .agent-id img { width: 28px; height: 28px; }
-  .agent-keybar { gap: 6px; }
-  .agent-keybar .key-label { width: 100%; }
-  .key-input-wrap { min-width: 0; }
+  .agent-guard { gap: 6px; }
+  .agent-guard .guard-label { width: 100%; }
   .composer textarea { font-size: .8rem; }
   .agent-foot { flex-direction: column; align-items: flex-start; gap: 4px; }
 }

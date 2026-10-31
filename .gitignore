@@ -5,3 +5,8 @@ dist/
 public/docs/*.html
 public/faq.json
 edge-functions/api/faq.js
+
+# Tencent Cloud EdgeOne
+.env
+.edgeone/*
+.tef_dist/*

@@ -1,4 +1,4 @@
-// agent-chat.js — centered Agent console; POST /api/chat; BYOK kept in sessionStorage
+// agent-chat.js — centered Agent console; POST /api/chat; server-side key only
 (function () {
   'use strict';
 
@@ -6,10 +6,8 @@
   if (!form) return;
 
   var COOLDOWN_MS = 3000;
-  var KEY_STORE = 'coolzhu.agnes.key';
   var WELCOME =
-    '你好，我是 coolzhuagent 的站点 Agent。可以问我安装、七层能力、插件、权限安全、Goal 流水线、模型接入，或者直接说你想完成的任务。\n\n' +
-    '如果你有自己的 Agnes Key，可以在上方接入；不填也能用站点公共额度。';
+    '你好，我是 coolzhuagent 的站点 Agent。可以问我安装、七层能力、插件、权限安全、Goal 流水线、模型接入，或者直接说你想完成的任务。';
 
   var log = document.getElementById('agent-log');
   var input = document.getElementById('agent-input');
@@ -19,11 +17,6 @@
   var suggestions = document.getElementById('agent-suggestions');
   var resetBtn = document.getElementById('agent-reset');
   var engineEl = document.getElementById('agent-engine');
-  var keybar = document.getElementById('agent-keybar');
-  var keyInput = document.getElementById('agent-key');
-  var keySave = document.getElementById('key-save');
-  var keyClear = document.getElementById('key-clear');
-  var keyEye = document.getElementById('key-eye');
   var toastEl = document.getElementById('toast');
 
   var busy = false;
@@ -31,43 +24,6 @@
   var requestSeq = 0;
   var currentController = null;
   var toastTimer = null;
-
-  /* ---------------- key storage ---------------- */
-
-  function readKey() {
-    try {
-      return sessionStorage.getItem(KEY_STORE) || '';
-    } catch (err) {
-      return '';
-    }
-  }
-
-  function writeKey(value) {
-    try {
-      if (value) sessionStorage.setItem(KEY_STORE, value);
-      else sessionStorage.removeItem(KEY_STORE);
-      return true;
-    } catch (err) {
-      return false;
-    }
-  }
-
-  function syncKeyUI() {
-    var key = readKey();
-    if (keyInput) {
-      keyInput.value = key;
-      keyInput.type = 'password';
-    }
-    if (keybar) keybar.classList.toggle('connected', !!key);
-  }
-
-  function revealKeyEditor() {
-    if (keybar) keybar.classList.remove('connected');
-    if (keyInput) {
-      keyInput.value = readKey();
-      keyInput.focus();
-    }
-  }
 
   /* ---------------- tiny safe renderer ---------------- */
 
@@ -420,8 +376,6 @@
     });
 
     var headers = { 'Content-Type': 'application/json' };
-    var key = readKey();
-    if (key) headers['X-Agnes-Key'] = key;
 
     var controller = null;
     if (typeof AbortController !== 'undefined') {
@@ -468,14 +422,12 @@
           return;
         }
 
-        if (result.status === 401 || data.error === 'invalid_api_key') {
-          addMessage('bot', data.message || 'Agnes API Key 无效或已过期，请检查后重新连接。', {
-            source: 'AUTH',
-            note: 'Key 校验失败',
+        if (result.status === 401) {
+          addMessage('bot', '服务端模型凭据异常，请稍后再试。', {
+            source: 'SYSTEM',
+            note: '服务不可用',
           });
-          revealKeyEditor();
-          setStatus('Key 无效，请检查后重新连接');
-          toast('Agnes API Key 无效或已过期');
+          setStatus('服务暂时不可用，请稍后再试');
           return;
         }
 
@@ -563,56 +515,5 @@
 
   if (resetBtn) resetBtn.addEventListener('click', resetChat);
 
-  if (keySave) {
-    keySave.addEventListener('click', function () {
-      if (!keyInput) return;
-      var value = keyInput.value.trim();
-      if (!value) {
-        toast('请先输入 Agnes API Key');
-        keyInput.focus();
-        return;
-      }
-      if (!writeKey(value)) {
-        toast('当前浏览器不允许 sessionStorage，无法保存 Key');
-        return;
-      }
-      if (keybar) keybar.classList.add('connected');
-      keyInput.value = value;
-      keyInput.type = 'password';
-      toast('已连接 · Key 仅存于本次会话');
-      setStatus('Key 已连接 · 仅存于本机会话');
-    });
-  }
-
-  if (keyClear) {
-    keyClear.addEventListener('click', function () {
-      writeKey('');
-      if (keyInput) {
-        keyInput.value = '';
-        keyInput.type = 'password';
-      }
-      if (keybar) keybar.classList.remove('connected');
-      toast('已清除本地 Key，将使用站点公共额度');
-      setStatus('已切换为站点公共额度');
-    });
-  }
-
-  if (keyEye) {
-    keyEye.addEventListener('click', function () {
-      if (!keyInput) return;
-      keyInput.type = keyInput.type === 'password' ? 'text' : 'password';
-    });
-  }
-
-  if (keyInput) {
-    keyInput.addEventListener('keydown', function (event) {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        if (keySave) keySave.click();
-      }
-    });
-  }
-
-  syncKeyUI();
   autoResize();
 })();

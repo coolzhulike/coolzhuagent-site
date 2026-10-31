@@ -28,28 +28,28 @@ EdgeOne Makers：构建命令 `npm run build`，输出目录 `public`，函数�
 
 | 变量 | 说明 |
 |---|---|
-| `AGNES_API_KEY` | Agnes API Key；站点公共额度使用。未配置时只能走 FAQ 检索 |
+| `AGNES_API_KEY` | Agnes API Key，仅服务端使用；不下发浏览器。未配置时只能走 FAQ 检索 |
 | `AGNES_BASE_URL` | 默认 `https://apihub.agnes-ai.com/v1` |
 | `AGNES_MODEL` | 默认 `agnes-3.0-flash` |
 | `MODEL_BASE_URL` / `MODEL_API_KEY` / `MODEL_NAME` | 兼容旧配置；`AGNES_*` 未设置时回退到这些变量 |
 | `MODEL_ENABLED` | 设为 `false` 可关闭模型调用，退化为纯 FAQ 检索 |
 | `MODEL_TIMEOUT_MS` / `MODEL_MAX_TOKENS` | 可选，默认 12000 / 500 |
-| `ALLOWED_ORIGIN` | 站点域名（免费子域名或自定义域），多个用逗号分隔 |
+| `ALLOWED_ORIGIN` | 可选：额外可信来源，多个用逗号分隔；同源始终允许，`*` 会被忽略 |
 | `IP_HASH_SALT` | 随机 32 位，限流 IP 哈希盐 |
 | `CONTACT_EMAIL` | 可选：拒答话术中的联系邮箱（留空则只引导联系页） |
 | `IP_DAILY_LIMIT` / `GLOBAL_DAILY_LIMIT` | 默认 5 / 500，按 UTC+8 重置 |
 
-KV：建命名空间 → 绑定变量名 `MY_KV`。未绑定 KV 时函数会记录错误并跳过限流（仅建议本地调试）。
+KV：建命名空间 → 绑定变量名 `MY_KV`。**未绑定或读写失败时函数会拒绝请求（fail closed）**，避免端点失去限流保护。
 
-### BYOK（用户自带 Agnes Key）
+### 安全与反滥用
 
-首页中央 Agent 窗口提供 Key 输入框：
-
-- Key 只写入当前浏览器 `sessionStorage`，关闭标签页即失效。
-- 请求通过 `X-Agnes-Key` 头传给边缘函数；函数只把它用于当次 Agnes 请求。
-- 不写入 KV、不写入日志、不回显。
-- 自带 Key 仍受同 IP 每日 5 次、全站每日 500 次限流保护。
-- 服务端 `AGNES_API_KEY` 作为未填 Key 时的公共额度回退。
+- **Key 只在服务端**：`AGNES_API_KEY` 仅存在于 EdgeOne 边缘函数环境变量，浏览器不接触、不存储、不传输。
+- **同源校验**：`/api/chat` 只接受同源请求；`ALLOWED_ORIGIN` 可额外放行可信来源，`*` 不再生效。
+- **字段白名单**：请求体只允许 `question` 与 `page`，拒绝 `messages`、`model`、`stream` 等通用 Chat Completions 字段，避免被当作 sub2api 反代。
+- **输入边界**：问题 ≤200 字，请求体 ≤4KB，仅接受 `application/json`。
+- **限流**：同 IP 每日 5 次、全站每日 500 次；KV 不可用时拒绝服务。
+- **错误脱敏**：上游模型错误只记录状态码，不回传响应体；日志不记录问题原文、原始 IP、API Key。
+- **密钥轮换**：如怀疑泄露，在控制台更新 `AGNES_API_KEY` 并重新部署；旧 Key 立即失效。
 
 ### 宣传片
 
