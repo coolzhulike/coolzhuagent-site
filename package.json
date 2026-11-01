@@ -9,5 +9,8 @@
     "build:docs": "node scripts/build-docs.mjs",
     "build:faq": "node scripts/build-faq.mjs",
     "check:releases": "node scripts/check-releases.mjs --skip-network"
+  },
+  "dependencies": {
+    "@edgeone/pages-blob": "^0.0.18"
   }
 }

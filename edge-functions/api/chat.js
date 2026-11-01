@@ -1,6 +1,7 @@
 // edge-functions/api/chat.js — coolzhuagent 站点 Agent
-// FAQ 检索 + Agnes 模型（服务端内置 Key）+ KV 限流
+// FAQ 检索 + Agnes 模型（服务端内置 Key）+ Blob 限流
 import faqData from './faq.js';
+import { getLimitStore, reserveRequest } from './rate-limit.js';
 
 /* ---------------- 配置 ---------------- */
 
@@ -16,10 +17,6 @@ function envOf(context, key, fallback = '') {
 function numEnv(context, key, fallback) {
   const n = Number(envOf(context, key, fallback));
   return Number.isFinite(n) && n > 0 ? Math.floor(n) : fallback;
-}
-
-function getKV(context) {
-  return context?.env?.MY_KV ?? globalThis.MY_KV ?? globalThis.my_kv ?? null;
 }
 
 function getModelConfig(context) {
@@ -233,81 +230,16 @@ function topMatches(question, limit = 4) {
 /* ---------------- 限流 ---------------- */
 
 async function checkLimit(context, ipHash) {
-  const kv = getKV(context);
   const ipLimit = numEnv(context, 'IP_DAILY_LIMIT', 5);
   const globalLimit = numEnv(context, 'GLOBAL_DAILY_LIMIT', 500);
-  const day = todayKey();
-  const ipKey = `rl_${day}_${ipHash}`;
-  const globalKey = `gl_${day}`;
-
-  // 没有 KV 就无法执行限流。此时拒绝请求，避免端点被当作无限量模型代理。
-  if (!kv) {
-    console.error('[chat] KV not bound, refusing request');
-    return {
-      allowed: false,
-      reason: 'unavailable',
-      remaining: 0,
-      retryAfter: 60,
-      ipKey,
-      globalKey,
-      kv: null,
-      ipCount: 0,
-      globalCount: 0,
-    };
-  }
-
-  let ipCount = 0;
-  let globalCount = 0;
-  try {
-    ipCount = Number(await kv.get(ipKey)) || 0;
-    globalCount = Number(await kv.get(globalKey)) || 0;
-  } catch (err) {
-    console.error('[chat] kv read failed, refusing request', safeErrorCode(err));
-    return {
-      allowed: false,
-      reason: 'unavailable',
-      remaining: 0,
-      retryAfter: 60,
-      ipKey,
-      globalKey,
-      kv: null,
-      ipCount: 0,
-      globalCount: 0,
-    };
-  }
-
-  if (ipCount >= ipLimit) {
-    return { allowed: false, reason: 'ip', remaining: 0, retryAfter: secondsToTomorrow() };
-  }
-  if (globalCount >= globalLimit) {
-    return { allowed: false, reason: 'global', remaining: 0, retryAfter: secondsToTomorrow() };
-  }
-
-  return {
-    allowed: true,
-    remaining: Math.max(0, ipLimit - ipCount - 1),
-    ipKey,
-    globalKey,
-    kv,
-    ipCount,
-    globalCount,
-  };
-}
-
-async function commitLimit(state) {
-  const nextIp = state.ipCount + 1;
-  const nextGlobal = state.globalCount + 1;
-  if (!state.kv) throw new Error('kv_unavailable');
-  try {
-    await Promise.all([
-      state.kv.put(state.ipKey, String(nextIp)),
-      state.kv.put(state.globalKey, String(nextGlobal)),
-    ]);
-  } catch (err) {
-    console.error('[chat] kv write failed, refusing request', safeErrorCode(err));
-    throw new Error('kv_write_failed');
-  }
-  return { ipCount: nextIp, globalCount: nextGlobal };
+  return reserveRequest({
+    store: getLimitStore(context),
+    day: todayKey(),
+    ipHash,
+    ipLimit,
+    globalLimit,
+    retryAfter: secondsToTomorrow(),
+  });
 }
 
 /* ---------------- 模型 ---------------- */
@@ -322,7 +254,7 @@ const SITE_BRIEF = [
   'Goal：commander → planner → implementer → verifier 四阶段；FilesExist / Command 确定性验证门；失败回退重改，重试有上限。',
   'Provider：OpenAI 兼容接口、Devin、ChatGPT 订阅、OpenRouter、Ollama / 自定义本地端点；文本模型 agnes-3.0-flash；图像/视频走 Agnes Image / Video。',
   '站点 Agent 使用服务端内置的 Agnes agnes-3.0-flash；API Key 只存在于边缘函数环境变量，不下发浏览器。',
-  '限流：同 IP 每日 5 次、全站每日 500 次，按 UTC+8 重置；KV 不可用时拒绝服务。',
+  '限流：同 IP 每日 5 次、全站每日 500 次，按 UTC+8 重置；限流存储不可用时拒绝服务。',
 ].join('\n');
 
 function buildMessages(question, matches, contact) {
@@ -394,9 +326,7 @@ function safeErrorCode(err) {
   if (
     code === 'model_not_configured' ||
     code === 'model_timeout' ||
-    code === 'model_empty' ||
-    code === 'kv_unavailable' ||
-    code === 'kv_write_failed'
+    code === 'model_empty'
   ) {
     return code;
   }
@@ -661,21 +591,10 @@ async function handle(context) {
     );
   }
 
-  let counts;
-  try {
-    counts = await commitLimit(limit);
-  } catch {
-    return json(
-      {
-        ok: false,
-        requestId,
-        error: 'service_unavailable',
-        message: '服务暂时不可用，请稍后再试。',
-      },
-      503,
-      { ...cors, 'Retry-After': '60' }
-    );
-  }
+  const counts = {
+    ipCount: limit.ipCount,
+    globalCount: limit.globalCount,
+  };
 
   const matches = topMatches(question, 4);
   const top = matches[0];

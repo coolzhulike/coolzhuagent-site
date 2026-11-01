@@ -39,7 +39,7 @@ EdgeOne Makers：构建命令 `npm run build`，输出目录 `public`，函数�
 | `CONTACT_EMAIL` | 可选：拒答话术中的联系邮箱（留空则只引导联系页） |
 | `IP_DAILY_LIMIT` / `GLOBAL_DAILY_LIMIT` | 默认 5 / 500，按 UTC+8 重置 |
 
-KV：建命名空间 → 绑定变量名 `MY_KV`。**未绑定或读写失败时函数会拒绝请求（fail closed）**，避免端点失去限流保护。
+限流存储：使用 EdgeOne Blob（首次写入时平台自动创建命名空间，无需在控制台手动绑定）。**存储不可用或读写失败时函数会拒绝请求（fail closed）**，避免端点失去限流保护。
 
 ### 安全与反滥用
 
@@ -47,7 +47,7 @@ KV：建命名空间 → 绑定变量名 `MY_KV`。**未绑定或读写失败时
 - **同源校验**：`/api/chat` 只接受同源请求；`ALLOWED_ORIGIN` 可额外放行可信来源，`*` 不再生效。
 - **字段白名单**：请求体只允许 `question` 与 `page`，拒绝 `messages`、`model`、`stream` 等通用 Chat Completions 字段，避免被当作 sub2api 反代。
 - **输入边界**：问题 ≤200 字，请求体 ≤4KB，仅接受 `application/json`。
-- **限流**：同 IP 每日 5 次、全站每日 500 次；KV 不可用时拒绝服务。
+- **限流**：同 IP 每日 5 次、全站每日 500 次；限流存储不可用时拒绝服务。
 - **错误脱敏**：上游模型错误只记录状态码，不回传响应体；日志不记录问题原文、原始 IP、API Key。
 - **密钥轮换**：如怀疑泄露，在控制台更新 `AGNES_API_KEY` 并重新部署；旧 Key 立即失效。
 
