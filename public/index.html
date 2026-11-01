@@ -446,7 +446,7 @@
       <div class="section-head center" data-reveal>
         <p class="kicker">LIVE AGENT CONSOLE</p>
         <h2 id="agent-title">别只看介绍，直接问 Agent</h2>
-        <p>这是一个真实的对话窗口，不是侧边悬浮客服。默认接入服务端内置的 Agnes 3.0 Flash，API Key 不下发浏览器；同 IP 每日 5 次、全站每日 500 次。</p>
+        <p>这是一个真实的对话窗口，不是侧边悬浮客服。优先使用服务端内置的 Agnes 3.0 Flash；未配置 Key 或模型不可用时自动回退到站点 FAQ。API Key 不下发浏览器；同 IP 每日 5 次、全站每日 500 次。</p>
       </div>
 
       <div class="agent-window" data-reveal data-reveal-delay="1">
@@ -456,7 +456,7 @@
             <div><b>coolzhu agent</b><small>CUSTOMER SUCCESS · LOCAL-FIRST</small></div>
           </div>
           <div class="agent-meta">
-            <span class="agent-engine" id="agent-engine"><span class="dot"></span>AGNES 3.0 FLASH</span>
+            <span class="agent-engine faq" id="agent-engine"><span class="dot"></span>FAQ RETRIEVAL</span>
             <button class="agent-icon-btn" id="agent-reset" type="button" aria-label="开始新对话" title="开始新对话">
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.34-5.66M4 4v5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
@@ -480,7 +480,7 @@
               <div class="msg-bubble">
                 <p>你好，我是 coolzhuagent 的站点 Agent。可以问我安装、七层能力、插件、权限安全、Goal 流水线、模型接入，或者直接说你想完成的任务。</p>
               </div>
-              <div class="msg-meta"><span class="msg-source">AGNES 3.0 FLASH</span><span>AI 辅助回答，仅供参考</span></div>
+              <div class="msg-meta"><span class="msg-source">SITE FAQ</span><span>站点知识库 · 仅供参考</span></div>
             </div>
           </div>
         </div>
@@ -514,7 +514,7 @@
         </div>
         <div class="agent-note">
           <span class="n-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v18M5 8h14M5 16h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <div><b>限流机制不变</b><small>同 IP 每日 5 次，全站每日 500 次，按 UTC+8 重置；KV 不可用时拒绝服务。</small></div>
+          <div><b>限流机制不变</b><small>同 IP 每日 5 次，全站每日 500 次，按 UTC+8 重置；限流存储不可用时拒绝服务。</small></div>
         </div>
         <div class="agent-note">
           <span class="n-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>

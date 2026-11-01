@@ -271,7 +271,7 @@
       meta.className = 'msg-meta';
       var source = document.createElement('span');
       source.className = 'msg-source';
-      source.textContent = opts.source || 'AGNES 3.0 FLASH';
+      source.textContent = opts.source || 'SITE FAQ';
       var note = document.createElement('span');
       note.textContent = opts.note || 'AI 辅助回答，仅供参考';
       meta.appendChild(source);
@@ -327,14 +327,14 @@
 
     if (log) log.textContent = '';
     addMessage('bot', WELCOME, {
-      source: 'AGNES 3.0 FLASH',
-      note: 'AI 辅助回答，仅供参考',
+      source: 'SITE FAQ',
+      note: '站点知识库 · 仅供参考',
     });
     if (suggestions) suggestions.classList.remove('hidden');
     if (sendBtn) sendBtn.disabled = false;
     setStatus('准备就绪 · 同一 IP 每日 5 次');
     setRemaining(undefined);
-    setEngine('agnes');
+    setEngine('faq');
     if (input) {
       input.value = '';
       autoResize();

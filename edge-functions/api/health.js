@@ -1,19 +1,22 @@
-// edge-functions/api/health.js — 健康检查：函数存活 + KV 可读 + FAQ 已打包
+// edge-functions/api/health.js — 健康检查：函数存活 + Blob 可读 + FAQ 已打包
 import faqData from './faq.js';
+import { getLimitStore } from './rate-limit.js';
 
 export default async function onRequest(context) {
-  const kv = context?.env?.MY_KV ?? globalThis.MY_KV ?? globalThis.my_kv;
-  let kvOk = false;
+  const store = getLimitStore(context);
+  let storageOk = false;
   try {
-    await kv?.get('health_check');
-    kvOk = !!kv;
+    if (store) {
+      await store.get('health_check', { consistency: 'strong' });
+      storageOk = true;
+    }
   } catch {
-    kvOk = false;
+    storageOk = false;
   }
   return new Response(
     JSON.stringify({
       ok: true,
-      kv: kvOk,
+      storage: storageOk,
       faqItems: (faqData.items || []).length,
       faqVersion: faqData.updatedAt || null,
       ts: new Date().toISOString(),

@@ -9,7 +9,7 @@ public/          静态站点（页面、assets、releases.json、sitemap）
 docs-src/        文档 md 源 → build-docs 渲染到 public/docs/
 data/            faq.source.json + synonyms.json（Agent 知识库）
 scripts/         build-docs / build-faq / check-releases
-edge-functions/  api/chat.js（FAQ + Agnes）、api/health.js
+edge-functions/  api/chat.js（FAQ + Agnes）、api/rate-limit.js（Blob 限流）、api/health.js
 ```
 
 ## 本地
