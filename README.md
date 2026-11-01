@@ -67,7 +67,7 @@ EdgeOne Makers：构建命令 `npm run build`，输出目录 `public`，函数�
 
 ## 站点域名
 
-当前部署：`https://coolzhuagent-site-dpf2vj3ilcui.edgeone.dev`。
+当前部署：`https://coolzhuagent-site.edgeone.dev`。
 `public/sitemap.xml`、`public/robots.txt` 中的域名按实际自定义域更新。
 
 完整方案见 `C:\Users\zhupu\coolzhuagent-site-edgeone-plan.md`。
