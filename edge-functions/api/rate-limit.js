@@ -1,11 +1,18 @@
 // edge-functions/api/rate-limit.js — 基于 EdgeOne Blob 的限流
 // Blob 命名空间由平台在首次写入时自动创建，无需在控制台手动绑定。
-// IP 配额使用 5 个原子占位对象；全站配额使用“锁 + 计数器”，避免高并发下超发。
-import { getStore, PreconditionFailedError } from '@edgeone/pages-blob';
+//
+// 为什么不用“计数器 + 锁”：
+// Blob SDK 的 onlyIfNew 条件写在底层对象存储中并不生效（官方类型定义已标注
+// deprecated），因此无法用它实现原子锁。这里改用“每次请求写一个唯一标记，
+// 再用强一致 list 统计标记数量”的方式：
+//   - 顺序请求：第 N 次请求写入后统计到 N，超过配额即拒绝；
+//   - 并发请求：每个请求的标记都会被计入，因此放行数不会超过配额；
+//   - 被拒绝的请求会删除自己的标记，不占用后续配额。
+// 并发突发时可能少放行（fail closed），但不会超发。
+import { getStore } from '@edgeone/pages-blob';
 
 const STORE_NAME = 'coolzhuagent-rate-limit';
-const LOCK_TTL_MS = 15000;
-const LOCK_RETRIES = 8;
+const MAX_LIST = 1000;
 
 let cachedStore = null;
 
@@ -26,54 +33,20 @@ function errorCode(err) {
   return String(err?.code || err?.name || 'unknown').slice(0, 80);
 }
 
-function isPreconditionFailed(err) {
-  return (
-    err instanceof PreconditionFailedError ||
-    err?.code === 'PRECONDITION_FAILED' ||
-    err?.name === 'PreconditionFailedError'
-  );
+async function countMarkers(store, prefix, limit) {
+  const { blobs } = await store.list({
+    prefix,
+    limit: Math.min(limit + 1, MAX_LIST),
+    consistency: 'strong',
+  });
+  return blobs.length;
 }
 
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function reserveGlobal(store, day, limit) {
-  const counterKey = `global/${day}`;
-  const lockKey = `locks/global/${day}`;
-
-  for (let attempt = 0; attempt < LOCK_RETRIES; attempt++) {
-    const token = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-    try {
-      await store.set(lockKey, token, { onlyIfNew: true });
-    } catch (err) {
-      if (!isPreconditionFailed(err)) throw err;
-      const current = await store.get(lockKey, { consistency: 'strong' }).catch(() => null);
-      if (current) {
-        const startedAt = Number(String(current).split('-')[0]);
-        if (Number.isFinite(startedAt) && Date.now() - startedAt > LOCK_TTL_MS) {
-          await store.delete(lockKey).catch(() => {});
-        }
-      }
-      await sleep(40 + Math.floor(Math.random() * 80));
-      continue;
-    }
-
-    try {
-      const raw = await store.get(counterKey, { consistency: 'strong' });
-      const count = Number(raw) || 0;
-      if (count >= limit) {
-        return { allowed: false, reason: 'global', globalCount: count };
-      }
-      const next = count + 1;
-      await store.set(counterKey, String(next));
-      return { allowed: true, globalCount: next };
-    } finally {
-      await store.delete(lockKey).catch(() => {});
-    }
+function markerId() {
+  if (typeof crypto?.randomUUID === 'function') {
+    return `${Date.now().toString(36)}-${crypto.randomUUID().slice(0, 8)}`;
   }
-
-  throw new Error('global_lock_timeout');
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
 }
 
 export async function reserveRequest({
@@ -88,48 +61,42 @@ export async function reserveRequest({
     return { allowed: false, reason: 'unavailable', retryAfter: 60 };
   }
 
-  let ipSlot = 0;
-  let ipSlotKey = '';
+  const id = markerId();
+  const ipKey = `ip/${day}/${ipHash}/${id}`;
+  const globalKey = `global/${day}/${id}`;
+  let ipWritten = false;
+  let globalWritten = false;
+
   try {
-    for (let i = 1; i <= ipLimit; i++) {
-      const key = `ip/${day}/${ipHash}/${i}`;
-      try {
-        await store.set(key, '1', { onlyIfNew: true });
-        ipSlot = i;
-        ipSlotKey = key;
-        break;
-      } catch (err) {
-        if (isPreconditionFailed(err)) continue;
-        throw err;
-      }
+    // 1. 先写本 IP 的请求标记，再统计该 IP 当天的标记数。
+    await store.set(ipKey, '1');
+    ipWritten = true;
+    const ipCount = await countMarkers(store, `ip/${day}/${ipHash}/`, ipLimit);
+    if (ipCount > ipLimit) {
+      await store.delete(ipKey).catch(() => {});
+      return { allowed: false, reason: 'ip', retryAfter };
     }
+
+    // 2. 再写全站标记并统计。若全站已满，撤销本 IP 标记。
+    await store.set(globalKey, '1');
+    globalWritten = true;
+    const globalCount = await countMarkers(store, `global/${day}/`, globalLimit);
+    if (globalCount > globalLimit) {
+      await store.delete(globalKey).catch(() => {});
+      await store.delete(ipKey).catch(() => {});
+      return { allowed: false, reason: 'global', retryAfter };
+    }
+
+    return {
+      allowed: true,
+      remaining: Math.max(0, ipLimit - ipCount),
+      ipCount,
+      globalCount,
+    };
   } catch (err) {
     console.error('[chat] limit store read/write failed', errorCode(err));
+    if (globalWritten) await store.delete(globalKey).catch(() => {});
+    if (ipWritten) await store.delete(ipKey).catch(() => {});
     return { allowed: false, reason: 'unavailable', retryAfter: 60 };
   }
-
-  if (!ipSlot) {
-    return { allowed: false, reason: 'ip', retryAfter };
-  }
-
-  let global;
-  try {
-    global = await reserveGlobal(store, day, globalLimit);
-  } catch (err) {
-    console.error('[chat] limit store read/write failed', errorCode(err));
-    await store.delete(ipSlotKey).catch(() => {});
-    return { allowed: false, reason: 'unavailable', retryAfter: 60 };
-  }
-
-  if (!global.allowed) {
-    await store.delete(ipSlotKey).catch(() => {});
-    return { allowed: false, reason: 'global', retryAfter };
-  }
-
-  return {
-    allowed: true,
-    remaining: Math.max(0, ipLimit - ipSlot),
-    ipCount: ipSlot,
-    globalCount: global.globalCount,
-  };
 }
