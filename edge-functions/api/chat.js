@@ -335,7 +335,8 @@ function safeErrorCode(err) {
 
 async function callModel(context, question, matches, contact) {
   const config = getModelConfig(context);
-  const timeout = numEnv(context, 'MODEL_TIMEOUT_MS', 12000);
+  // 上游冷启动可能超过 12s；留足时间，超时仍会回退到 FAQ。
+  const timeout = numEnv(context, 'MODEL_TIMEOUT_MS', 24000);
   const maxTokens = numEnv(context, 'MODEL_MAX_TOKENS', 500);
 
   if (!config.enabled || !config.key) {

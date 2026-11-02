@@ -33,7 +33,7 @@ EdgeOne Makers：构建命令 `npm run build`，输出目录 `public`，函数�
 | `AGNES_MODEL` | 默认 `agnes-3.0-flash` |
 | `MODEL_BASE_URL` / `MODEL_API_KEY` / `MODEL_NAME` | 兼容旧配置；`AGNES_*` 未设置时回退到这些变量 |
 | `MODEL_ENABLED` | 设为 `false` 可关闭模型调用，退化为纯 FAQ 检索 |
-| `MODEL_TIMEOUT_MS` / `MODEL_MAX_TOKENS` | 可选，默认 12000 / 500 |
+| `MODEL_TIMEOUT_MS` / `MODEL_MAX_TOKENS` | 可选，默认 24000 / 500；冷启动超时后回退 FAQ |
 | `ALLOWED_ORIGIN` | 可选：额外可信来源，多个用逗号分隔；同源始终允许，`*` 会被忽略 |
 | `IP_HASH_SALT` | 随机字符串，限流 IP 哈希盐；更换后当日配额重新计数 |
 | `CONTACT_EMAIL` | 可选：拒答话术中的联系邮箱（留空则只引导联系页） |
